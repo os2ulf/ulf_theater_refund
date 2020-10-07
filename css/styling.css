@@ -1,0 +1,131 @@
+.page-eform-submit-theater-refund h1{
+  margin: 0 8px;
+}
+
+.tr-form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.tr-form label {
+  display: block;
+}
+
+.tr-form fieldset,
+.tr-form .form-submit {
+  margin-top: 1em;
+}
+
+.tr-form .description {
+  font-size: 0.9em;
+  margin-top: .5em;
+}
+
+.tr-form .user-message--wrapper {
+  -ms-flex: 0 1 45%; /* IE 10 */
+  flex: 0 1 45%;
+  order: 2;
+}
+
+.tr-form .user-message {
+  background: lightgrey;
+  box-sizing: border-box;
+  display: block;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: .5em;
+  width: 100%;
+}
+
+.tr-form > .entityform {
+  -ms-flex: 0 1 45%; /* IE 10 */
+  flex: 0 1 45%;
+  order: 1;
+}
+
+@media screen and (max-width: 860px) {
+  .tr-form > .user-message--wrapper {
+    -ms-flex: 0 1 100%; /* IE 10 */
+    flex: 0 1 100%;
+    order: 1;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .tr-form > .entityform {
+    -ms-flex: 0 1 100%; /* IE 10 */
+    flex: 0 1 100%;
+    order: 2;
+  }
+}
+
+.tr-form .field-type-entityreference select {
+  height: 3em;
+  width: 100%;
+}
+
+.tr-form .field-name-field-tr-requested-amount input {
+  width: 50%;
+  display: inline-block;
+}
+
+.tr-form .field-name-field-tr-granted-amount input {
+  width: 50%;
+  display: inline-block;
+}
+
+.tr-form .field-name-field-tr-spent-amount input {
+  width: 50%;
+  display: inline-block;
+}
+
+.tr-form .price-info {
+  background: lightgrey;
+  box-sizing: border-box;
+  display: block;
+  padding: 1em;
+  margin: 1em 0 0;
+  border-radius: .5em;
+  width: 100%;
+}
+
+.tr-form .price-info .price-list span {
+  margin-right: 5px;
+}
+
+.tr-form .price-info ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.tr-receipt .content--main .block--field-label,
+.tr-receipt .content--main .block--field-text {
+  display: inline-block;
+  margin-top: 0;
+}
+
+.tr-receipt .content--main .block--field-label:after {
+  content: ':';
+}
+
+.tr-receipt .content--main h2 {
+  margin-top: 1.5em;
+}
+
+.tr-content {
+  margin: 0 8px;
+}
+
+.field-name-field-tr-send-mail > div,
+.field-name-field-tr-send-mail > div label,
+.field-name-field-receiving-class > div,
+.field-name-field-receiving-class > div label {
+  display: inline-block;
+}
+
+#edit-field-tr-date-value-min-wrapper,
+#edit-field-tr-date-value-max-wrapper {
+  display: none;
+}

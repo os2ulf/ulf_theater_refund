@@ -1,0 +1,494 @@
+<?php
+/**
+ * @file
+ * Code for the Ulf free course request feature.
+ */
+
+include_once 'ulf_theater_refund.features.inc';
+include_once 'ulf_theater_refund.permissions.inc';
+include_once 'ulf_theater_refund.backend.inc';
+include_once 'ulf_theater_refund.actions.inc';
+include_once 'ulf_theater_refund.mail.inc';
+include_once 'ulf_theater_refund.form_alterations.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function ulf_theater_refund_menu() {
+  $items = [];
+
+  $items['admin/config/system/theater_refund/requests'] = [
+    'title' => 'Theater refund requests',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  ];
+
+  $items['admin/config/system/theater_refund/config'] = [
+    'title' => 'Config / Help texts',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ulf_theater_refund_form_backend'],
+    'type' => MENU_LOCAL_TASK,
+    'access arguments' => ['administer ulf free course request settings'],
+    'file' => 'ulf_theater_refund.backend.inc',
+    'file path' => drupal_get_path('module', 'ulf_theater_refund'),
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ulf_theater_refund_cron() {
+  global $language;
+
+
+  if (variable_get('enable_free_course_follow_up_mails', FALSE)) {
+    if (date('G') > 8) {
+      $from = strtotime('yesterday 00:00 Europe/Copenhagen');
+      $to = strtotime('today 00:00 Europe/Copenhagen') - 1;
+      $query = db_select('field_data_field_tr_date', 'd');
+      $query->fields('d', ['entity_id']);
+      $query->leftJoin('field_data_field_tr_follow_up_mail_sent', 'f', 'd.entity_id = f.entity_id AND d.bundle = f.bundle');
+      $query->leftJoin('field_data_field_tr_status', 's', 'd.entity_id = s.entity_id');
+      $query->condition('d.field_tr_date_value', $from, '>=');
+      $query->condition('d.field_tr_date_value', $to, '<');
+      $query->condition('d.bundle', 'theater_refund', '=');
+      $query->condition(
+        's.field_tr_status_value', [
+        'accepted',
+        'awaiting_payment',
+        'ready_for_payment',
+        'payment_completed',
+      ], 'IN'
+      );
+      $query->isNull('f.field_tr_follow_up_mail_sent_value');
+      $result = $query->execute()->fetchAllKeyed(0, 0);
+
+      foreach (entityform_load_multiple($result) as $course_request) {
+        $params = [];
+        $wrapper = $course_request->wrapper();
+        $provider = $wrapper->field_tr_provider->value();
+        $course = $wrapper->field_tr_course->value();
+
+        $params['user'] = $provider;
+        $params['node'] = $course;
+        $params['entityform'] = parseRefundFormData($course_request);
+
+        $to = $wrapper->field_tr_mail->value();
+        if (drupal_mail('ulf_theater_refund', 'theater_refund_follow_up_mail', $to, $language, $params)) {
+          $course_request->field_tr_follow_up_mail_sent[LANGUAGE_NONE][0]['value']
+            = time();
+          $course_request->field_tr_mails_sent[LANGUAGE_NONE][] = [
+            'value' => t('Follow up mail sent', [], ['langcode' => $language->language]),
+            'format' => NULL,
+            'safe_value' => t('Follow up mail sent', [], ['langcode' => $language->language]),
+          ];
+
+          field_attach_presave('entityform', $course_request);
+          field_attach_update('entityform', $course_request);
+        }
+      }
+    }
+  }
+}
+
+function parseRefundFormData($form_data) {
+  $form = clone $form_data;
+  $form->field_tr_date[LANGUAGE_NONE][0]['value'] = format_date($form_data->field_tr_date[LANGUAGE_NONE][0]['value'], 'custom', 'j. F Y');
+  return $form;
+}
+
+/**
+ * Implements hook_mailkeys().
+ */
+function ulf_theater_refund_mailkeys() {
+  return [
+    'theater_refund_follow_up_mail' => t('Mail sent to schools the day after the course was held.'),
+  ];
+}
+
+/**
+ * Implements hook_mail_edit_text().
+ */
+function ulf_theater_refund_mail_edit_text($mailkey, $language) {
+  $return = [];
+  switch ($mailkey) {
+    case 'theater_refund_follow_up_mail':
+      $return['subject'] = 'Evaluate the course';
+      $return['always'] = TRUE;
+      $return['body'] = 'Here is a body text';
+      break;
+  }
+  return $return;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ulf_theater_refund_block_info() {
+  $blocks['theater_refund_summary'] = [
+    'info' => 'Tildelt budget opsummering',
+  ];
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ulf_theater_refund_block_view($delta = '') {
+  if ($delta == 'theater_refund_summary') {
+    $block['subject'] = NULL;
+    $block['content'] = '<style>#block-ulf-theater-refund-theater-refund-summary{float:right;}</style>';
+
+    $requested_amount = 0;
+    $granted_amount = 0;
+    $spent_amount = 0;
+
+    $params = drupal_get_query_parameters();
+    $query = db_select('entityform', 'e');
+    $query->leftJoin('field_data_field_tr_requested_amount', 'ra', 'e.entityform_id = ra.entity_id');
+    $query->leftJoin('field_data_field_tr_granted_amount', 'ga', 'e.entityform_id = ga.entity_id');
+    $query->leftJoin('field_data_field_tr_spent_amount', 'sa', 'e.entityform_id = sa.entity_id');
+
+    $query->condition('e.type', 'theater_refund');
+
+    // Filter on date
+    if (isset($params['field_tr_date_value']) || isset($params['field_tr_date_value_1']) || isset($params['field_tr_date_value_2']) || isset($params['field_tr_date_value_3'])) {
+      $query->leftJoin('field_data_field_tr_date', 'd', 'e.entityform_id = d.entity_id');
+      if (isset($params['field_tr_date_value']['value']['date']) && $params['field_tr_date_value']['value']['date'] != '') {
+        $parts = explode('/', $params['field_tr_date_value']['value']['date']);
+        $time = strtotime($parts[2] . $parts[1] . $parts[0]);
+        if ($time > 0) {
+          $query->condition('d.field_tr_date_value', $time, '>');
+        }
+      }
+      if (isset($params['field_tr_date_value_1']['value']['date']) && $params['field_tr_date_value_1']['value']['date'] != '') {
+        $parts = explode('/', $params['field_tr_date_value_1']['value']['date']);
+        $time = strtotime($parts[2] . $parts[1] . $parts[0]);
+        if ($time > 0) {
+          $query->condition('d.field_tr_date_value', $time, '<');
+        }
+      }
+
+      if (isset($params['field_tr_date_value_3']['value']['year']) && $params['field_tr_date_value_3']['value']['year'] != '') {
+        $start = strtotime($params['field_tr_date_value_3']['value']['year'] . '0101');
+        $end = strtotime($params['field_tr_date_value_3']['value']['year'] . '1231T23:59:59');
+
+        if ($start > 0 && $end > 0) {
+          $query->condition('d.field_tr_date_value', $start, '>');
+          $query->condition('d.field_tr_date_value', $end, '<');
+        }
+      }
+
+      // Filter on semester.
+      if (isset($params['field_tr_date_value_2']['semester']) && count($params['field_tr_date_value_2']['semester']) > 0) {
+        $condition_group = db_or();
+        foreach ($params['field_tr_date_value_2']['semester'] as $semester) {
+          $exp = explode('_', $semester);
+          if (count($exp) == 2) {
+            $args = $exp[1] == 1
+              ? [
+                ':semester_' . $semester . '_min' => $exp[0] . '-01',
+                ':semester_' . $semester . '_max' => $exp[0] . '-06',
+              ]
+              : [
+                ':semester_' . $semester . '_min' => $exp[0] . '-07',
+                ':semester_' . $semester . '_max' => $exp[0] . '-12',
+              ];
+            $condition_group->where(
+              'DATE_FORMAT(FROM_UNIXTIME(d.field_tr_date_value), \'%Y-%m\') >= :semester_'
+              . $semester
+              . '_min AND DATE_FORMAT(FROM_UNIXTIME(d.field_tr_date_value), \'%Y-%m\') <= :semester_'
+              . $semester . '_max', $args
+            );
+          }
+        }
+        $query->condition($condition_group);
+      }
+    }
+
+    if (isset($params['field_tr_status_value'])
+      && $params['field_tr_status_value'] != 'All'
+    ) {
+      $query->leftJoin('field_data_field_tr_status', 's', 'e.entityform_id = s.entity_id');
+      $query->condition('s.field_tr_status_value', $params['field_tr_status_value'], 'IN');
+    }
+    $uid = arg(3);
+    if ($uid && $uid > 0) {
+      //      $query->leftJoin('field_data_field_tr_school', 'field_data_field_tr_school_filter', 'e.entityform_id = field_data_field_tr_school_filter.entity_id');
+      //      $query->condition('field_data_field_tr_school_filter.field_tr_school_target_id', $uid);
+      $query->condition('e.uid', $uid);
+    }
+
+    if (isset($params['combine']) && $params['combine'] != '') {
+
+      $query->leftJoin('field_data_field_tr_name', 'field_data_field_tr_name', 'e.entityform_id = field_data_field_tr_name.entity_id');
+      $query->leftJoin('field_data_field_tr_school', 'field_data_field_tr_school', 'e.entityform_id = field_data_field_tr_school.entity_id');
+      $query->leftJoin('users', 'users_field_data_field_tr_school', 'field_data_field_tr_school.field_tr_school_target_id = users_field_data_field_tr_school.uid');
+      $query->leftJoin('field_data_field_profile_name', 'users_field_data_field_tr_school__field_data_field_profile_name', 'users_field_data_field_tr_school.uid = users_field_data_field_tr_school__field_data_field_profile_name.entity_id');
+      $query->leftJoin('field_data_field_tr_new_course_name', 'field_data_field_tr_new_course_name', 'e.entityform_id = field_data_field_tr_new_course_name.entity_id');
+
+      $query->addExpression("CONCAT_WS(' ', e.entityform_id, ' ', field_data_field_tr_name.field_tr_name_value, ' ', field_data_field_tr_new_course_name.field_tr_new_course_name_value, ' ', users_field_data_field_tr_school__field_data_field_profile_name.field_profile_name_value)", 'combined_fields');
+
+      $query->havingCondition(
+        'combined_fields', '%' . $params['combine'] . '%', 'LIKE'
+      );
+
+      $query->addField('ra', 'field_tr_requested_amount_value', 'requested_amount');
+      $query->addField('ga', 'field_tr_granted_amount_value', 'granted_amount');
+      $query->addField('sa', 'field_tr_spent_amount_value', 'spent_amount');
+
+      $result = $query->execute()->fetchAll();
+      foreach ($result as $row) {
+        $requested_amount += floatval($row->requested_amount);
+        $granted_amount += floatval($row->granted_amount);
+        $spent_amount += floatval($row->spent_amount);
+      }
+
+    }
+    else {
+      $query->addExpression('SUM(field_tr_requested_amount_value)', 'requested_amount');
+      $query->addExpression('SUM(field_tr_granted_amount_value)', 'granted_amount');
+      $query->addExpression('SUM(field_tr_spent_amount_value)', 'spent_amount');
+      $result = $query->execute()->fetchAll();
+      $result = reset($result);
+      $granted_amount = $result->granted_amount;
+      $spent_amount = $result->spent_amount;
+    }
+
+    $allocatedBudget = getAllocatedBudget($params['field_tr_date_value_3']['value']['year'], $uid);
+    $remaining_budget = $allocatedBudget - $spent_amount;
+    $block['content'] .= '<p>Tildelt budget: <b>'
+      . number_format($allocatedBudget, 2, ',', '.')
+      . ' kr.</b> - Forbrugt budget: <b>'
+      . number_format($spent_amount, 2, ',', '.')
+      . ' kr.</b> - Restbudget: <b>'
+      . number_format($remaining_budget < 0 ? 0 : $remaining_budget, 2, ',', '.')
+      . ' kr.</b> - Bevilget i alt: <b>'
+      . number_format($granted_amount, 2, ',', '.') .' kr.</b></p>';
+    return $block;
+  }
+}
+
+
+function getAllocatedBudget($year = NULL, $uid) {
+  $query = db_select('field_data_field_allocated_budget', 'a');
+  $query->leftJoin('field_data_field_budget', 'b', 'a.field_allocated_budget_value = b.entity_id && a.field_allocated_budget_revision_id = b.revision_id');
+  $query->leftJoin('field_data_field_year', 'y', 'a.field_allocated_budget_value = y.entity_id && a.field_allocated_budget_revision_id = y.revision_id');
+  $query->condition('b.field_budget_value',0, '>');
+  $query->condition('a.entity_id', $uid);
+
+  if (!empty($year)) {
+    $query->where("DATE_FORMAT(y.field_year_value, '%Y') = :year", [':year' => $year]);
+  }
+
+  $query->addExpression('SUM(field_budget_value)', 'requested_amount');
+  $result = ($query->execute()->fetchCol());
+  return reset($result);
+}
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * @param $view
+ * @param views_plugin_query_default $query
+ */
+function ulf_theater_refund_views_query_alter(&$view, &$query) {
+  if ($view->name == 'ulf_theater_refunds'
+    && ($view->current_display == 'theater_refunds_table'
+      || $view->current_display == 'theater_refunds_user')
+  ) {
+    //    kint($query);die;
+    $params = drupal_get_query_parameters();
+    if (isset($params['field_tr_date_value_2']['semester'])
+      && !empty($params['field_tr_date_value_2']['semester'])
+    ) {
+      $snippet = '';
+      $args = [];
+      foreach ($params['field_tr_date_value_2']['semester'] as $semester) {
+        $exp = explode('_', $semester);
+        if (count($exp) == 2) {
+          if ($snippet != '') {
+            $snippet .= ' OR ';
+          }
+          $snippet .= 'DATE_FORMAT(FROM_UNIXTIME(field_data_field_tr_date.field_tr_date_value), \'%Y-%m\') >= :semester_'
+            . $semester
+            . '_min AND DATE_FORMAT(FROM_UNIXTIME(field_data_field_tr_date.field_tr_date_value), \'%Y-%m\') <= :semester_'
+            . $semester . '_max';
+          if ($exp[1] == 1) {
+            $args[':semester_' . $semester . '_min'] = $exp[0] . '-01';
+            $args[':semester_' . $semester . '_max'] = $exp[0] . '-06';
+          }
+          else {
+            if ($exp[1] == 2) {
+              $args[':semester_' . $semester . '_min'] = $exp[0] . '-07';
+              $args[':semester_' . $semester . '_max'] = $exp[0] . '-12';
+            }
+          }
+        }
+      }
+      $group = $query->set_where_group();
+      $query->add_where_expression($group, $snippet, $args);
+      $query->ensure_table('field_data_field_tr_date');
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function ulf_theater_refund_views_pre_render(&$view) {
+  if ($view->name == 'ulf_theater_refunds') {
+    foreach ($view->result as $value) {
+
+      if (isset($value->field_field_tr_date_1[0])) {
+        $time = $value->field_field_tr_date_1[0]['raw']['value'];
+        $year = date('Y', $time);
+        $month = date('m', $time);
+        if ($month < 7) {
+          $string = '2. halvår ' . ($year - 1) . '/' . $year;
+        }
+        else {
+          $string = '1. halvår ' . $year . '/' . ($year + 1);
+        }
+        $value->field_field_tr_date_1[0]['rendered']['#markup'] = $string;
+      }
+
+      if (isset($value->field_field_tr_new_course_name[0], $value->field_field_tr_course_not_found[0]) &&
+        $value->field_field_tr_course_not_found[0]['raw']['value'] == 1) {
+        $value->field_field_tr_course = [
+          [
+            'rendered' => ['#markup' => $value->field_field_tr_new_course_name[0]['rendered']['#markup']]
+          ]
+        ];
+      }
+
+      if (!empty($value->field_field_receiving_class)) {
+        if ($value->field_field_receiving_class[0]['rendered']['#markup'] == 1) {
+          $value->field_field_receiving_class[0]['rendered']['#markup'] = t('Yes');
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entityform_access_alter().
+ */
+function ulf_theater_refund_entityform_access_alter(&$access, $op, $context) {
+  $account = $context['account'];
+  $entityform = $context['entityform'];
+  if ($entityform->type === 'theater_refund' && !$access && $op == 'edit' && isset($entityform->uid)
+    && $account->uid == $entityform->uid
+  ) {
+    $status = $entityform->field_tr_status[LANGUAGE_NONE][0]['value'];
+    if ($status == 'awaiting_payment') {
+      $access = TRUE;
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_user_profile().
+ */
+function ulf_theater_refund_preprocess_user_profile(&$variables) {
+  foreach ($variables['elements']['#account']->roles as $role) {
+    $filter = '![^abcdefghijklmnopqrstuvwxyz0-9-_]+!s';
+    $string_clean = preg_replace($filter, '-', drupal_strtolower($role));
+    $variables['theme_hook_suggestions'][] = 'user_profile__' . $string_clean;
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function ulf_theater_refund_theme_registry_alter(&$theme_registry) {
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'ulf_theater_refund');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // If the template has not already been overridden by a theme.
+    if (!isset($theme_registry[$key]['theme path'])
+      || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])
+    ) {
+      // Alter the theme path and template elements.
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
+    }
+  }
+}
+
+/**
+ * Change the entiyform after it has been inserted into db.
+ * Also send mails.
+ *
+ * @param $entity
+ * @param $entity_type
+ */
+function ulf_theater_refund_entity_postinsert($entity, $entity_type) {
+  if ($entity_type == 'entityform') {
+    if ($entity->type == 'theater_refund') {
+      $wrapper = entity_metadata_wrapper($entity_type, $entity);
+      _tr_notify($wrapper, 'on_submit_user');
+      _tr_notify($wrapper, 'on_submit_admin');
+    }
+  }
+}
+
+
+/**
+ * Act after entiyform has been changed.
+ *
+ * @param $entity
+ * @param $entity_type
+ */
+function ulf_theater_refund_entity_postupdate($entity, $entity_type) {
+  // Ensure we are submitting an entityform from form view.
+  if ($entity_type == 'entityform' && arg(2) == 'edit') {
+    if ($entity->type == 'theater_refund') {
+      // Set author to choice of school.
+      $entity->uid = $entity->field_tr_school['und'][0]['target_id'];
+      entityform_save($entity);
+
+      $wrapper = entity_metadata_wrapper($entity_type, $entity);
+      if ($entity->field_tr_send_mail[LANGUAGE_NONE][0]['value'] == TRUE) {
+        if ($entity->field_tr_status[LANGUAGE_NONE][0]['value']
+          == 'accepted'
+        ) {
+          _tr_notify($wrapper, 'on_change_accepted');
+        }
+        if ($entity->field_tr_status[LANGUAGE_NONE][0]['value'] == 'refused') {
+          _tr_notify($wrapper, 'on_change_refused');
+        }
+      }
+      // Log the user that changed the entity
+      global $user;
+      $wrapper->field_tr_latest_editor = $user->uid;
+      $wrapper->save();
+      if (!in_array('editor', $user->roles)) {
+        drupal_goto('admin/teater-refusion/ansoegninger/' . $user->uid);
+      }
+      else {
+        drupal_goto('admin/config/system/theater_refund');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function ulf_theater_refund_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+
+  if ($root_path == 'entityform/%/edit') {
+    global $user;
+    if (in_array('teaterkontakt', $user->roles)) {
+      $data['tabs'][0]['output'] = [];
+      $data['tabs'][0]['count'] = 0;
+    }
+  }
+}
