@@ -921,9 +921,139 @@ Mail sendes dog kun hvis status er godkendt eller afvist.',
     ),
   );
 
+  // Exported field_instance:
+  // 'field_collection_item-field_allocated_budget-field_budget'.
+  $field_instances['field_collection_item-field_allocated_budget-field_budget'] = array(
+    'bundle' => 'field_allocated_budget',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_budget',
+    'label' => 'Allocated budget',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => 'Kr.',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'html5_tools',
+      'settings' => array(),
+      'type' => 'numberfield',
+      'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'field_collection_item-field_allocated_budget-field_year'.
+  $field_instances['field_collection_item-field_allocated_budget-field_year'] = array(
+    'bundle' => 'field_allocated_budget',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'custom_date_format' => '',
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+          'show_remaining_days' => FALSE,
+        ),
+        'type' => 'date_default',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_year',
+    'label' => 'Year',
+    'required' => 0,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'increment' => 15,
+        'input_format' => 'd/m/Y - H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'no_fieldset' => 0,
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_select',
+      'weight' => 0,
+    ),
+  );
+
+  // Exported field_instance: 'user-user-field_allocated_budget'.
+  $field_instances['user-user-field_allocated_budget'] = array(
+    'bundle' => 'user',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'field_collection',
+        'settings' => array(
+          'add' => 'Tilføj',
+          'delete' => 'Slet',
+          'description' => TRUE,
+          'edit' => 'Redigér',
+          'translate' => 'Oversæt',
+        ),
+        'type' => 'field_collection_list',
+        'weight' => 14,
+      ),
+    ),
+    'entity_type' => 'user',
+    'field_name' => 'field_allocated_budget',
+    'label' => 'Tildelt budget',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'field_collection',
+      'settings' => array(),
+      'type' => 'field_collection_embed',
+      'weight' => 20,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Afviklingsdato');
+  t('Allocated budget');
   t('Ansøgt beløb');
   t('Antal');
   t('Bemærkninger');
@@ -950,7 +1080,9 @@ Mail sendes dog kun hvis status er godkendt eller afvist.');
   t('Sæt kryds her, hvis klassen er en modtageklasse');
   t('Teater');
   t('Telefonnr');
+  t('Tildelt budget');
   t('Udbetalingsdato');
+  t('Year');
 
   return $field_instances;
 }
