@@ -11,8 +11,7 @@
 function ulf_theater_refund_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_receiving_class'.
+  // Exported field_instance: 'entityform-theater_refund-field_receiving_class'.
   $field_instances['entityform-theater_refund-field_receiving_class'] = array(
     'bundle' => 'theater_refund',
     'default_value' => array(
@@ -49,8 +48,7 @@ function ulf_theater_refund_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_attachment'.
+  // Exported field_instance: 'entityform-theater_refund-field_tr_attachment'.
   $field_instances['entityform-theater_refund-field_tr_attachment'] = array(
     'bundle' => 'theater_refund',
     'deleted' => 0,
@@ -104,8 +102,7 @@ function ulf_theater_refund_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_conditions'.
+  // Exported field_instance: 'entityform-theater_refund-field_tr_conditions'.
   $field_instances['entityform-theater_refund-field_tr_conditions'] = array(
     'bundle' => 'theater_refund',
     'default_value' => array(
@@ -139,117 +136,6 @@ function ulf_theater_refund_field_default_field_instances() {
       ),
       'type' => 'options_onoff',
       'weight' => 3,
-    ),
-  );
-
-  // Exported field_instance: 'entityform-theater_refund-field_tr_course'.
-  $field_instances['entityform-theater_refund-field_tr_course'] = array(
-    'bundle' => 'theater_refund',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'entityreference',
-        'settings' => array(
-          'bypass_access' => FALSE,
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 8,
-      ),
-    ),
-    'entity_type' => 'entityform',
-    'field_name' => 'field_tr_course',
-    'label' => 'Forløb',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'apply_chosen' => '',
-      ),
-      'type' => 'options_select',
-      'weight' => 31,
-    ),
-  );
-
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_course_name'.
-  $field_instances['entityform-theater_refund-field_tr_course_name'] = array(
-    'bundle' => 'theater_refund',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 26,
-      ),
-    ),
-    'entity_type' => 'entityform',
-    'field_name' => 'field_tr_course_name',
-    'label' => 'Forløb',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'maxlength_js' => 0,
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 30,
-    ),
-  );
-
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_course_not_found'.
-  $field_instances['entityform-theater_refund-field_tr_course_not_found'] = array(
-    'bundle' => 'theater_refund',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 18,
-      ),
-    ),
-    'entity_type' => 'entityform',
-    'field_name' => 'field_tr_course_not_found',
-    'label' => 'Forløb findes ikke på listen',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 32,
     ),
   );
 
@@ -299,7 +185,7 @@ function ulf_theater_refund_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_popup',
-      'weight' => 37,
+      'weight' => 32,
     ),
   );
 
@@ -537,8 +423,7 @@ function ulf_theater_refund_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_mails_sent'.
+  // Exported field_instance: 'entityform-theater_refund-field_tr_mails_sent'.
   $field_instances['entityform-theater_refund-field_tr_mails_sent'] = array(
     'bundle' => 'theater_refund',
     'default_value' => NULL,
@@ -611,45 +496,6 @@ function ulf_theater_refund_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_new_course_description'.
-  $field_instances['entityform-theater_refund-field_tr_new_course_description'] = array(
-    'bundle' => 'theater_refund',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 20,
-      ),
-    ),
-    'entity_type' => 'entityform',
-    'field_name' => 'field_tr_new_course_description',
-    'label' => 'Beskrivelse af forløbet',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'maxlength_js' => '',
-        'maxlength_js_enforce' => 0,
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-        'maxlength_js_truncate_html' => 0,
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 34,
-    ),
-  );
-
-  // Exported field_instance:
   // 'entityform-theater_refund-field_tr_new_course_name'.
   $field_instances['entityform-theater_refund-field_tr_new_course_name'] = array(
     'bundle' => 'theater_refund',
@@ -667,7 +513,7 @@ function ulf_theater_refund_field_default_field_instances() {
     ),
     'entity_type' => 'entityform',
     'field_name' => 'field_tr_new_course_name',
-    'label' => 'Forløbets navn',
+    'label' => 'Forestilling',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -682,12 +528,11 @@ function ulf_theater_refund_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 33,
+      'weight' => 29,
     ),
   );
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_payment_date'.
+  // Exported field_instance: 'entityform-theater_refund-field_tr_payment_date'.
   $field_instances['entityform-theater_refund-field_tr_payment_date'] = array(
     'bundle' => 'theater_refund',
     'deleted' => 0,
@@ -770,43 +615,6 @@ function ulf_theater_refund_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_provider'.
-  $field_instances['entityform-theater_refund-field_tr_provider'] = array(
-    'bundle' => 'theater_refund',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'entityreference',
-        'settings' => array(
-          'bypass_access' => FALSE,
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 6,
-      ),
-    ),
-    'entity_type' => 'entityform',
-    'field_name' => 'field_tr_provider',
-    'label' => 'Udbyder',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'apply_chosen' => '',
-      ),
-      'type' => 'options_select',
-      'weight' => 29,
-    ),
-  );
-
-  // Exported field_instance:
   // 'entityform-theater_refund-field_tr_provider_name'.
   $field_instances['entityform-theater_refund-field_tr_provider_name'] = array(
     'bundle' => 'theater_refund',
@@ -824,7 +632,7 @@ function ulf_theater_refund_field_default_field_instances() {
     ),
     'entity_type' => 'entityform',
     'field_name' => 'field_tr_provider_name',
-    'label' => 'Udbyder navn',
+    'label' => 'Teater',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -843,8 +651,47 @@ function ulf_theater_refund_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_remarks'.
+  // Exported field_instance: 'entityform-theater_refund-field_tr_quantity'.
+  $field_instances['entityform-theater_refund-field_tr_quantity'] = array(
+    'bundle' => 'theater_refund',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 29,
+      ),
+    ),
+    'entity_type' => 'entityform',
+    'field_name' => 'field_tr_quantity',
+    'label' => 'Antal',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'html5_tools',
+      'settings' => array(),
+      'type' => 'numberfield',
+      'weight' => 30,
+    ),
+  );
+
+  // Exported field_instance: 'entityform-theater_refund-field_tr_remarks'.
   $field_instances['entityform-theater_refund-field_tr_remarks'] = array(
     'bundle' => 'theater_refund',
     'default_value' => NULL,
@@ -919,7 +766,7 @@ function ulf_theater_refund_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 36,
+      'weight' => 31,
     ),
   );
 
@@ -959,8 +806,7 @@ function ulf_theater_refund_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_send_mail'.
+  // Exported field_instance: 'entityform-theater_refund-field_tr_send_mail'.
   $field_instances['entityform-theater_refund-field_tr_send_mail'] = array(
     'bundle' => 'theater_refund',
     'default_value' => array(
@@ -998,8 +844,7 @@ Mail sendes dog kun hvis status er godkendt eller afvist.',
     ),
   );
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_spent_amount'.
+  // Exported field_instance: 'entityform-theater_refund-field_tr_spent_amount'.
   $field_instances['entityform-theater_refund-field_tr_spent_amount'] = array(
     'bundle' => 'theater_refund',
     'default_value' => NULL,
@@ -1076,52 +921,16 @@ Mail sendes dog kun hvis status er godkendt eller afvist.',
     ),
   );
 
-  // Exported field_instance:
-  // 'entityform-theater_refund-field_tr_subject'.
-  $field_instances['entityform-theater_refund-field_tr_subject'] = array(
-    'bundle' => 'theater_refund',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 21,
-      ),
-    ),
-    'entity_type' => 'entityform',
-    'field_name' => 'field_tr_subject',
-    'label' => 'Vælg emneområde',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'apply_chosen' => '',
-      ),
-      'type' => 'options_select',
-      'weight' => 35,
-    ),
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Afviklingsdato');
   t('Ansøgt beløb');
+  t('Antal');
   t('Bemærkninger');
-  t('Beskrivelse af forløbet');
   t('Bevilget beløb');
   t('Bilag');
   t('Forbrugt beløb (eks. moms)');
-  t('Forløb');
-  t('Forløb findes ikke på listen');
-  t('Forløbets navn');
+  t('Forestilling');
   t('Ja, det er forstået');
   t('Jeg giver samtykke');
   t('Klasse');
@@ -1139,11 +948,9 @@ Mail sendes dog kun hvis status er godkendt eller afvist.');
   t('Skriv hvilken klasse, der deltager i forløbet - sådan her: 7.B eller 7.ABC)');
   t('Status');
   t('Sæt kryds her, hvis klassen er en modtageklasse');
+  t('Teater');
   t('Telefonnr');
   t('Udbetalingsdato');
-  t('Udbyder');
-  t('Udbyder navn');
-  t('Vælg emneområde');
 
   return $field_instances;
 }
