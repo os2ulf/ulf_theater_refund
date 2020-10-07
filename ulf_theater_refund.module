@@ -257,7 +257,9 @@ function ulf_theater_refund_block_view($delta = '') {
       $spent_amount = $result->spent_amount;
     }
 
-    $allocatedBudget = getAllocatedBudget($params['field_tr_date_value_3']['value']['year'], $uid);
+    $year = $params['field_tr_date_value_3']['value']['year'] ?? date("Y");
+    $allocatedBudget = getAllocatedBudget($year, $uid);
+
     $remaining_budget = $allocatedBudget - $spent_amount;
     $block['content'] .= '<p>Tildelt budget: <b>'
       . number_format($allocatedBudget, 2, ',', '.')
