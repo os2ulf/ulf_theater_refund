@@ -686,36 +686,7 @@ function _tr_get_allocated_budget($uid = NULL, $year = NULL) {
  */
 function _tr_get_remaining_budget($uid = NULL, $year = NULL, $request_id = NULL) {
   $allocated_budget = _tr_get_allocated_budget($uid, $year);
-
-  $query = db_select('entityform', 'e');
-  $query->leftJoin('field_data_field_tr_spent_amount', 'sa', 'e.entityform_id = sa.entity_id');
-  $query->condition('e.type', 'theater_refund');
-
-  if (!empty($uid) && is_numeric($uid)) {
-    $query->condition('e.uid', $uid);
-  }
-
-  if($year) {
-    $query->leftJoin('field_data_field_tr_date', 'd', 'e.entityform_id = d.entity_id');
-
-    $start = strtotime($year . '0101');
-    $end = strtotime($year . '1231T23:59:59');
-
-    if ($start > 0 && $end > 0) {
-      $query->condition('d.field_tr_date_value', $start, '>');
-      $query->condition('d.field_tr_date_value', $end, '<');
-    }
-  }
-
-  if (!empty($request_id)) {
-    $query->condition('e.entityform_id', $request_id, '!=');
-  }
-
-  $query->addField('sa', 'field_tr_spent_amount_value', 'spent_amount');
-  $query->addExpression('SUM(field_tr_spent_amount_value)', 'spent_amount');
-  $result = $query->execute()->fetchAll();
-  $result = reset($result);
-  $spent_amount = $result->spent_amount;
+  $spent_amount = _tr_get_spent_budget($uid, $year);
 
   $remaining_budget = $allocated_budget - $spent_amount;
   return number_format($remaining_budget < 0 ? 0 : $remaining_budget, 2, ',', '.');
