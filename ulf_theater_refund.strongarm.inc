@@ -2,7 +2,7 @@
 
 /**
  * @file
- * ulf_free_course_request.strongarm.inc
+ * ulf_theater_refund.strongarm.inc
  */
 
 /**

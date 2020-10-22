@@ -208,9 +208,12 @@ function ulf_theater_refund_block_view($delta = '') {
       }
     }
 
-    if (isset($params['field_tr_status_value'])
-      && $params['field_tr_status_value'] != 'All'
-    ) {
+    if (isset($params['field_tr_status_value']) && $params['field_tr_status_value'] != 'All') {
+
+      if(!is_array($params['field_tr_status_value'])) {
+        $params['field_tr_status_value'] = [$params['field_tr_status_value']];
+      }
+
       $query->leftJoin('field_data_field_tr_status', 's', 'e.entityform_id = s.entity_id');
       $query->condition('s.field_tr_status_value', $params['field_tr_status_value'], 'IN');
     }
@@ -257,35 +260,19 @@ function ulf_theater_refund_block_view($delta = '') {
       $spent_amount = $result->spent_amount;
     }
 
-    $allocatedBudget = getAllocatedBudget($params['field_tr_date_value_3']['value']['year'], $uid);
-    $remaining_budget = $allocatedBudget - $spent_amount;
+    $year = $params['field_tr_date_value_3']['value']['year'] ?? date("Y");
+    $allocatedBudget = _tr_get_allocated_budget($uid, $year);
+
+    $remaining_budget = $allocatedBudget - $granted_amount;
     $block['content'] .= '<p>Tildelt budget: <b>'
       . number_format($allocatedBudget, 2, ',', '.')
       . ' kr.</b> - Forbrugt budget: <b>'
-      . number_format($spent_amount, 2, ',', '.')
+      . number_format($granted_amount, 2, ',', '.')
       . ' kr.</b> - Restbudget: <b>'
       . number_format($remaining_budget < 0 ? 0 : $remaining_budget, 2, ',', '.')
-      . ' kr.</b> - Bevilget i alt: <b>'
-      . number_format($granted_amount, 2, ',', '.') .' kr.</b></p>';
+      . ' kr.</b></p>';
     return $block;
   }
-}
-
-
-function getAllocatedBudget($year = NULL, $uid) {
-  $query = db_select('field_data_field_allocated_budget', 'a');
-  $query->leftJoin('field_data_field_budget', 'b', 'a.field_allocated_budget_value = b.entity_id && a.field_allocated_budget_revision_id = b.revision_id');
-  $query->leftJoin('field_data_field_year', 'y', 'a.field_allocated_budget_value = y.entity_id && a.field_allocated_budget_revision_id = y.revision_id');
-  $query->condition('b.field_budget_value',0, '>');
-  $query->condition('a.entity_id', $uid);
-
-  if (!empty($year)) {
-    $query->where("DATE_FORMAT(y.field_year_value, '%Y') = :year", [':year' => $year]);
-  }
-
-  $query->addExpression('SUM(field_budget_value)', 'requested_amount');
-  $result = ($query->execute()->fetchCol());
-  return reset($result);
 }
 
 /**
@@ -379,9 +366,7 @@ function ulf_theater_refund_views_pre_render(&$view) {
 function ulf_theater_refund_entityform_access_alter(&$access, $op, $context) {
   $account = $context['account'];
   $entityform = $context['entityform'];
-  if ($entityform->type === 'theater_refund' && !$access && $op == 'edit' && isset($entityform->uid)
-    && $account->uid == $entityform->uid
-  ) {
+  if ($entityform->type === 'theater_refund' && !$access && $op == 'edit' && isset($entityform->uid) && $account->uid == $entityform->uid) {
     $status = $entityform->field_tr_status[LANGUAGE_NONE][0]['value'];
     if ($status == 'awaiting_payment') {
       $access = TRUE;
@@ -456,9 +441,7 @@ function ulf_theater_refund_entity_postupdate($entity, $entity_type) {
 
       $wrapper = entity_metadata_wrapper($entity_type, $entity);
       if ($entity->field_tr_send_mail[LANGUAGE_NONE][0]['value'] == TRUE) {
-        if ($entity->field_tr_status[LANGUAGE_NONE][0]['value']
-          == 'accepted'
-        ) {
+        if ($entity->field_tr_status[LANGUAGE_NONE][0]['value'] == 'accepted') {
           _tr_notify($wrapper, 'on_change_accepted');
         }
         if ($entity->field_tr_status[LANGUAGE_NONE][0]['value'] == 'refused') {

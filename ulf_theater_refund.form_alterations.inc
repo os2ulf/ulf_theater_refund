@@ -643,14 +643,73 @@ function _tr_get_subjects() {
   return $options;
 }
 
-function _tr_get_remaining_budget($uid, $year, $request_id = NULL) {
-  $allocated_budget = getAllocatedBudget($year, $uid);
+/**
+ * Get the allocated budget.
+ *
+ * @param $uid
+ *   The user id
+ * @param null $year
+ *  The year to get the allocated budget for.
+ *
+ * @return mixed
+ */
+function _tr_get_allocated_budget($uid = NULL, $year = NULL) {
+  $query = db_select('field_data_field_allocated_budget', 'a');
+  $query->leftJoin('field_data_field_budget', 'b', 'a.field_allocated_budget_value = b.entity_id && a.field_allocated_budget_revision_id = b.revision_id');
+  $query->leftJoin('field_data_field_year', 'y', 'a.field_allocated_budget_value = y.entity_id && a.field_allocated_budget_revision_id = y.revision_id');
 
+  if (!empty($uid) && is_numeric($uid)) {
+    $query->condition('a.entity_id', $uid);
+  }
+
+  if (!empty($year)) {
+    $query->where("DATE_FORMAT(y.field_year_value, '%Y') = :year", [':year' => $year]);
+  }
+
+  $query->addExpression('SUM(field_budget_value)', 'requested_amount');
+  $result = ($query->execute()->fetchCol());
+  return reset($result);
+}
+
+/**
+ * Get the remaining budget
+ *
+ * @param $uid
+ *   The user id
+ * @param null $year
+ *  The year to get the allocated budget for.
+ * @param null $request_id
+ *  The application id to remove from result. Is useful if you dont want the
+ *  current application to be calculated into the remaining budget.
+ *
+ * @return string
+ */
+function _tr_get_remaining_budget($uid = NULL, $year = NULL, $request_id = NULL) {
+  $allocated_budget = _tr_get_allocated_budget($uid, $year);
+  $spent_amount = _tr_get_spent_budget($uid, $year);
+
+  $remaining_budget = $allocated_budget - $spent_amount;
+  return number_format($remaining_budget < 0 ? 0 : $remaining_budget, 2, ',', '.');
+}
+
+/**
+ * Get the spent budget.
+ *
+ * @param $uid
+ *   The user id
+ * @param null $year
+ *  The year to get the allocated budget for.
+ *
+ * @return mixed
+ */
+function _tr_get_spent_budget($uid, $year) {
   $query = db_select('entityform', 'e');
-  $query->leftJoin('field_data_field_tr_requested_amount', 'ra', 'e.entityform_id = ra.entity_id');
   $query->leftJoin('field_data_field_tr_granted_amount', 'ga', 'e.entityform_id = ga.entity_id');
-  $query->leftJoin('field_data_field_tr_spent_amount', 'sa', 'e.entityform_id = sa.entity_id');
   $query->condition('e.type', 'theater_refund');
+
+  if (!empty($uid) && is_numeric($uid)) {
+    $query->condition('e.uid', $uid);
+  }
 
   if($year) {
     $query->leftJoin('field_data_field_tr_date', 'd', 'e.entityform_id = d.entity_id');
@@ -664,17 +723,10 @@ function _tr_get_remaining_budget($uid, $year, $request_id = NULL) {
     }
   }
 
-  if (!empty($request_id)) {
-    $query->condition('e.entityform_id', $request_id, '!=');
-  }
+  $query->addField('ga', 'field_tr_granted_amount_value', 'granted_amount');
+  $query->addExpression('SUM(field_tr_granted_amount_value)', 'granted_amount');
 
-  $query->addField('sa', 'field_tr_spent_amount_value', 'spent_amount');
-  $query->addExpression('SUM(field_tr_spent_amount_value)', 'spent_amount');
   $result = $query->execute()->fetchAll();
   $result = reset($result);
-  $spent_amount = $result->spent_amount;
-
-  $remaining_budget = $allocated_budget - $spent_amount;
-  return number_format($remaining_budget < 0 ? 0 : $remaining_budget, 2, ',', '.');
-
+  return $result->granted_amount;
 }
