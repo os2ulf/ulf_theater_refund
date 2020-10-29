@@ -31,7 +31,7 @@ function ulf_theater_refund_default_entityform_type() {
   $items = array();
   $items['theater_refund'] = entity_import('entityform_type', '{
     "type" : "theater_refund",
-    "label" : "Ans\\u00f8g om teater refusion",
+    "label" : "Ans\\u00f8g om teaterrefusion",
     "data" : {
       "draftable" : 0,
       "draft_redirect_path" : "",
@@ -50,7 +50,7 @@ function ulf_theater_refund_default_entityform_type() {
       "submissions_view" : "default",
       "user_submissions_view" : "default",
       "form_status" : "ENTITYFORM_OPEN",
-      "roles" : { "1" : "1", "2" : "2", "18" : 0, "19" : 0, "20" : 0, "21" : 0 },
+      "roles" : { "1" : "1", "2" : "2", "18" : 0, "19" : 0, "20" : 0, "30" : 0, "31" : 0 },
       "resubmit_action" : "new",
       "redirect_path" : "",
       "instruction_pre" : { "value" : "", "format" : "editor" }

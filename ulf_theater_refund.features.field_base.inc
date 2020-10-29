@@ -52,6 +52,31 @@ function ulf_theater_refund_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
+  // Exported field_base: 'field_government_subsidy'.
+  $field_bases['field_government_subsidy'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_government_subsidy',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
+  );
+
   // Exported field_base: 'field_receiving_class'.
   $field_bases['field_receiving_class'] = array(
     'active' => 1,
@@ -436,17 +461,22 @@ function ulf_theater_refund_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_tr_provider_name',
     'indexes' => array(
-      'format' => array(
-        0 => 'format',
+      'tid' => array(
+        0 => 'tid',
       ),
     ),
     'locked' => 0,
-    'module' => 'text',
+    'module' => 'taxonomy',
     'settings' => array(
-      'max_length' => 255,
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => 'teater',
+          'parent' => 0,
+        ),
+      ),
     ),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'taxonomy_term_reference',
   );
 
   // Exported field_base: 'field_tr_quantity'.

@@ -428,22 +428,6 @@ function ulf_theater_refund_views_default_views() {
   );
   $handler->display->display_options['filters']['field_tr_date_value_1']['form_type'] = 'date_popup';
   /* Filterkriterie: Entityform Submission: Afviklingsdato (field_tr_date) */
-  $handler->display->display_options['filters']['field_tr_date_value_2']['id'] = 'field_tr_date_value_2';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['table'] = 'field_data_field_tr_date';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['field'] = 'field_tr_date_value';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['operator'] = 'between';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['group'] = 3;
-  $handler->display->display_options['filters']['field_tr_date_value_2']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['operator_id'] = 'field_tr_date_value_2_op';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['label'] = 'Semester';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['operator'] = 'field_tr_date_value_2_op';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['identifier'] = 'field_tr_date_value_2';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['remember_roles'] = array(
-    2 => '2',
-  );
-  $handler->display->display_options['filters']['field_tr_date_value_2']['granularity'] = 'month';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['form_type'] = 'date_text';
-  /* Filterkriterie: Entityform Submission: Afviklingsdato (field_tr_date) */
   $handler->display->display_options['filters']['field_tr_date_value_3']['id'] = 'field_tr_date_value_3';
   $handler->display->display_options['filters']['field_tr_date_value_3']['table'] = 'field_data_field_tr_date';
   $handler->display->display_options['filters']['field_tr_date_value_3']['field'] = 'field_tr_date_value';
@@ -630,9 +614,22 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_requested_amount']['id'] = 'field_tr_requested_amount';
   $handler->display->display_options['fields']['field_tr_requested_amount']['table'] = 'field_data_field_tr_requested_amount';
   $handler->display->display_options['fields']['field_tr_requested_amount']['field'] = 'field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount']['label'] = 'Ansøgt beløb (inkl. moms)';
   $handler->display->display_options['fields']['field_tr_requested_amount']['settings'] = array(
     'thousand_separator' => '',
     'decimal_separator' => ',',
+    'scale' => '2',
+    'prefix_suffix' => 1,
+  );
+  /* Felt: Entityform Submission: Ansøgt beløb */
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['id'] = 'field_tr_requested_amount_1';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['table'] = 'field_data_field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['field'] = 'field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['label'] = 'Ansøgt beløb (ekskl. moms)';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['alter']['text'] = '[field_tr_requested_amount_1-value] * 0.8';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['settings'] = array(
+    'thousand_separator' => '',
+    'decimal_separator' => '.',
     'scale' => '2',
     'prefix_suffix' => 1,
   );
@@ -708,14 +705,14 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['edit_entityform']['field'] = 'edit_entityform';
   $handler->display->display_options['fields']['edit_entityform']['label'] = '';
   $handler->display->display_options['fields']['edit_entityform']['element_label_colon'] = FALSE;
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['relationship'] = 'field_tr_school_target_id';
   $handler->display->display_options['fields']['field_profile_name']['label'] = 'Skole';
   $handler->display->display_options['fields']['field_profile_name']['exclude'] = TRUE;
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name_1']['id'] = 'field_profile_name_1';
   $handler->display->display_options['fields']['field_profile_name_1']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name_1']['field'] = 'field_profile_name';
@@ -757,7 +754,7 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_name']['id'] = 'field_tr_name';
   $handler->display->display_options['fields']['field_tr_name']['table'] = 'field_data_field_tr_name';
   $handler->display->display_options['fields']['field_tr_name']['field'] = 'field_tr_name';
-  /* Felt: Bruger: CVR */
+  /* Felt: User: CVR */
   $handler->display->display_options['fields']['field_profile_cvr']['id'] = 'field_profile_cvr';
   $handler->display->display_options['fields']['field_profile_cvr']['table'] = 'field_data_field_profile_cvr';
   $handler->display->display_options['fields']['field_profile_cvr']['field'] = 'field_profile_cvr';
@@ -807,9 +804,21 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_requested_amount']['id'] = 'field_tr_requested_amount';
   $handler->display->display_options['fields']['field_tr_requested_amount']['table'] = 'field_data_field_tr_requested_amount';
   $handler->display->display_options['fields']['field_tr_requested_amount']['field'] = 'field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount']['label'] = 'Ansøgt beløb (inkl. moms)';
   $handler->display->display_options['fields']['field_tr_requested_amount']['settings'] = array(
     'thousand_separator' => '',
     'decimal_separator' => ',',
+    'scale' => '2',
+    'prefix_suffix' => 1,
+  );
+  /* Felt: Entityform Submission: Ansøgt beløb */
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['id'] = 'field_tr_requested_amount_1';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['table'] = 'field_data_field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['field'] = 'field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['label'] = 'Ansøgt beløb (ekskl. moms)';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['settings'] = array(
+    'thousand_separator' => '',
+    'decimal_separator' => '.',
     'scale' => '2',
     'prefix_suffix' => 1,
   );
@@ -865,7 +874,7 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_remarks']['id'] = 'field_tr_remarks';
   $handler->display->display_options['fields']['field_tr_remarks']['table'] = 'field_data_field_tr_remarks';
   $handler->display->display_options['fields']['field_tr_remarks']['field'] = 'field_tr_remarks';
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
@@ -969,22 +978,6 @@ function ulf_theater_refund_views_default_views() {
     2 => '2',
   );
   $handler->display->display_options['filters']['field_tr_date_value_1']['form_type'] = 'date_popup';
-  /* Filterkriterie: Entityform Submission: Afviklingsdato (field_tr_date) */
-  $handler->display->display_options['filters']['field_tr_date_value_2']['id'] = 'field_tr_date_value_2';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['table'] = 'field_data_field_tr_date';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['field'] = 'field_tr_date_value';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['operator'] = 'between';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['group'] = 3;
-  $handler->display->display_options['filters']['field_tr_date_value_2']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['operator_id'] = 'field_tr_date_value_2_op';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['label'] = 'Semester';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['operator'] = 'field_tr_date_value_2_op';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['identifier'] = 'field_tr_date_value_2';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['expose']['remember_roles'] = array(
-    2 => '2',
-  );
-  $handler->display->display_options['filters']['field_tr_date_value_2']['granularity'] = 'month';
-  $handler->display->display_options['filters']['field_tr_date_value_2']['form_type'] = 'date_text';
   /* Filterkriterie: Entityform Submission: Afviklingsdato (field_tr_date) */
   $handler->display->display_options['filters']['field_tr_date_value_3']['id'] = 'field_tr_date_value_3';
   $handler->display->display_options['filters']['field_tr_date_value_3']['table'] = 'field_data_field_tr_date';
@@ -1175,7 +1168,7 @@ function ulf_theater_refund_views_default_views() {
     t('‹ forrige'),
     t('næste ›'),
     t('sidste »'),
-    t('Bruger entity refereret fra field_tr_school'),
+    t('User entity refereret fra field_tr_school'),
     t('field_tr_provider_target_id'),
     t('field_tr_course_target_id'),
     t('forfatter'),
@@ -1192,7 +1185,6 @@ function ulf_theater_refund_views_default_views() {
     t('Afviklingsdato fra'),
     t('Afviklingsdato (field_tr_date)'),
     t('Afviklingsdato til'),
-    t('Semester'),
     t('År'),
     t('All applications'),
     t('ID'),
@@ -1205,7 +1197,9 @@ function ulf_theater_refund_views_default_views() {
     t('Antal'),
     t('Afviklingsdato'),
     t('Skoleår'),
-    t('Ansøgt beløb'),
+    t('Ansøgt beløb (inkl. moms)'),
+    t('Ansøgt beløb (ekskl. moms)'),
+    t('[field_tr_requested_amount_1-value] * 0.8'),
     t('Bevilget beløb'),
     t('Forbrugt beløb'),
     t('Bilag'),
@@ -1225,6 +1219,7 @@ function ulf_theater_refund_views_default_views() {
     t('Modtageklasse'),
     t('Mailadresse'),
     t('Telefonnr'),
+    t('Ansøgt beløb'),
     t('Indsendelsesdato'),
   );
   $export['ulf_theater_refunds'] = $view;
@@ -1292,7 +1287,7 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'course' => 'course',
   );
-  /* Filterkriterie: Indhold: Overordnet målgruppe (field_target_group) */
+  /* Filterkriterie: Node: Overordnet målgruppe (field_target_group) */
   $handler->display->display_options['filters']['field_target_group_tid']['id'] = 'field_target_group_tid';
   $handler->display->display_options['filters']['field_target_group_tid']['table'] = 'field_data_field_target_group';
   $handler->display->display_options['filters']['field_target_group_tid']['field'] = 'field_target_group_tid';
@@ -1377,7 +1372,7 @@ function ulf_theater_refund_views_default_views() {
     ),
   );
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';

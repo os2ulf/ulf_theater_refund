@@ -44,7 +44,7 @@ function ulf_theater_refund_form_theater_refund_entityform_edit_form_alter(&$for
   ]
   )['value'];
   $form['#prefix']
-    = '<div class="fcr-form"><div class="user-message--wrapper"><div class="user-message">'
+    = '<div class="tr-form"><div class="user-message--wrapper"><div class="user-message">'
     . $intro_text . '</div></div>';
   $form['#suffix'] = '</div>';
 
@@ -192,8 +192,10 @@ function ulf_theater_refund_form_theater_refund_entityform_edit_form_alter(&$for
 
   if ($form_state['entityform_form_mode'] == 'submit') {
     // Add no select options on create mode.
-    $form['field_tr_subject'][LANGUAGE_NONE]['#options']['_none'] = t('- Select a subject  -');
-    $form['field_tr_school'][LANGUAGE_NONE]['#options']['_none'] = t('- Select a school  -');
+    $form['field_tr_provider_name'][LANGUAGE_NONE]['#options']['_none'] = t('- Select a theater -');
+
+    $form['field_tr_subject'][LANGUAGE_NONE]['#options']['_none'] = t('- Select a subject -');
+    $form['field_tr_school'][LANGUAGE_NONE]['#options']['_none'] = t('- Select a school -');
   }
 
   // Add custom validation handler.
@@ -705,6 +707,9 @@ function _tr_get_remaining_budget($uid = NULL, $year = NULL, $request_id = NULL)
 function _tr_get_spent_budget($uid, $year) {
   $query = db_select('entityform', 'e');
   $query->leftJoin('field_data_field_tr_granted_amount', 'ga', 'e.entityform_id = ga.entity_id');
+  $query->leftJoin('field_data_field_tr_provider_name', 'pn', 'e.entityform_id = pn.entity_id');
+  $query->leftJoin('field_data_field_government_subsidy', 'gs', 'pn.field_tr_provider_name_tid = gs.entity_id');
+
   $query->condition('e.type', 'theater_refund');
 
   if (!empty($uid) && is_numeric($uid)) {
@@ -724,9 +729,15 @@ function _tr_get_spent_budget($uid, $year) {
   }
 
   $query->addField('ga', 'field_tr_granted_amount_value', 'granted_amount');
-  $query->addExpression('SUM(field_tr_granted_amount_value)', 'granted_amount');
-
+  $query->addField('gs', 'field_government_subsidy_value', 'subsidy');
   $result = $query->execute()->fetchAll();
-  $result = reset($result);
-  return $result->granted_amount;
+
+  $granted_amount = 0;
+  foreach($result as $amount) {
+    if ($amount->granted_amount !== NULL) {
+      $multiplier = $amount->subsidy === '1' ? 2 : 1;
+      $granted_amount += ($amount->granted_amount * $multiplier);
+    }
+  }
+  return $granted_amount;
 }

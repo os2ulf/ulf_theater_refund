@@ -11,43 +11,6 @@
 function ulf_theater_refund_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'entityform-theater_refund-field_receiving_class'.
-  $field_instances['entityform-theater_refund-field_receiving_class'] = array(
-    'bundle' => 'theater_refund',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'Sæt kryds her, hvis klassen er en modtageklasse',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 28,
-      ),
-    ),
-    'entity_type' => 'entityform',
-    'field_name' => 'field_receiving_class',
-    'label' => 'Modtageklasse',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 19,
-    ),
-  );
-
   // Exported field_instance: 'entityform-theater_refund-field_tr_attachment'.
   $field_instances['entityform-theater_refund-field_tr_attachment'] = array(
     'bundle' => 'theater_refund',
@@ -164,7 +127,7 @@ function ulf_theater_refund_field_default_field_instances() {
     'entity_type' => 'entityform',
     'field_name' => 'field_tr_date',
     'label' => 'Afviklingsdato',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'default_value' => 'blank',
       'default_value2' => 'same',
@@ -185,7 +148,7 @@ function ulf_theater_refund_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_popup',
-      'weight' => 32,
+      'weight' => 42,
     ),
   );
 
@@ -280,7 +243,7 @@ function ulf_theater_refund_field_default_field_instances() {
     'bundle' => 'theater_refund',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Skriv hvilken klasse, der deltager i forløbet - sådan her: 7.B eller 7.ABC)',
+    'description' => 'Skriv hvilken klasse, der skal se forestillingen.',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -514,7 +477,7 @@ function ulf_theater_refund_field_default_field_instances() {
     'entity_type' => 'entityform',
     'field_name' => 'field_tr_new_course_name',
     'label' => 'Forestilling',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -528,7 +491,7 @@ function ulf_theater_refund_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 29,
+      'weight' => 39,
     ),
   );
 
@@ -623,31 +586,28 @@ function ulf_theater_refund_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'inline',
-        'module' => 'text',
+        'label' => 'above',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 6,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 30,
       ),
     ),
     'entity_type' => 'entityform',
     'field_name' => 'field_tr_provider_name',
     'label' => 'Teater',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
-      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'text',
+      'module' => 'options',
       'settings' => array(
-        'maxlength_js' => 0,
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-        'size' => 60,
+        'apply_chosen' => '',
       ),
-      'type' => 'text_textfield',
-      'weight' => 28,
+      'type' => 'options_select',
+      'weight' => 38,
     ),
   );
 
@@ -674,7 +634,7 @@ function ulf_theater_refund_field_default_field_instances() {
     'entity_type' => 'entityform',
     'field_name' => 'field_tr_quantity',
     'label' => 'Antal',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'max' => '',
       'min' => '',
@@ -687,7 +647,7 @@ function ulf_theater_refund_field_default_field_instances() {
       'module' => 'html5_tools',
       'settings' => array(),
       'type' => 'numberfield',
-      'weight' => 30,
+      'weight' => 40,
     ),
   );
 
@@ -735,7 +695,7 @@ function ulf_theater_refund_field_default_field_instances() {
     'bundle' => 'theater_refund',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Skriv forløbets totale pris i hele tal - eks. \'400\'. Det er den pris, der er aftalt med udbyderen af forløbet og som ULF i Aarhus skal betale totalt. Hvis du ansøger for flere klasser, så skriv den samlede pris for alle forløb.',
+    'description' => 'Skriv forestillingens totale pris i hele tal inkl. moms - eks. \'8000\'.',
     'display' => array(
       'default' => array(
         'label' => 'inline',
@@ -758,7 +718,7 @@ function ulf_theater_refund_field_default_field_instances() {
       'max' => '',
       'min' => '',
       'prefix' => '',
-      'suffix' => ' kr.',
+      'suffix' => '',
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -766,7 +726,7 @@ function ulf_theater_refund_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 31,
+      'weight' => 41,
     ),
   );
 
@@ -1013,6 +973,43 @@ Mail sendes dog kun hvis status er godkendt eller afvist.',
     ),
   );
 
+  // Exported field_instance: 'taxonomy_term-teater-field_government_subsidy'.
+  $field_instances['taxonomy_term-teater-field_government_subsidy'] = array(
+    'bundle' => 'teater',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'taxonomy_term',
+    'field_name' => 'field_government_subsidy',
+    'label' => 'Statstilskud',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 1,
+    ),
+  );
+
   // Exported field_instance: 'user-user-field_allocated_budget'.
   $field_instances['user-user-field_allocated_budget'] = array(
     'bundle' => 'user',
@@ -1065,7 +1062,6 @@ Mail sendes dog kun hvis status er godkendt eller afvist.',
   t('Jeg giver samtykke');
   t('Klasse');
   t('Mailadresse');
-  t('Modtageklasse');
   t('Navn');
   t('Opfølgningsmail sendt');
   t('Send mail til brugeren om status på ansøgningen når formularen gemmes.
@@ -1074,10 +1070,10 @@ Mail sendes dog kun hvis status er godkendt eller afvist.');
   t('Sendte mails');
   t('Senest ændret af');
   t('Skole');
-  t('Skriv forløbets totale pris i hele tal - eks. \'400\'. Det er den pris, der er aftalt med udbyderen af forløbet og som ULF i Aarhus skal betale totalt. Hvis du ansøger for flere klasser, så skriv den samlede pris for alle forløb.');
-  t('Skriv hvilken klasse, der deltager i forløbet - sådan her: 7.B eller 7.ABC)');
+  t('Skriv forestillingens totale pris i hele tal inkl. moms - eks. \'8000\'.');
+  t('Skriv hvilken klasse, der skal se forestillingen.');
+  t('Statstilskud');
   t('Status');
-  t('Sæt kryds her, hvis klassen er en modtageklasse');
   t('Teater');
   t('Telefonnr');
   t('Tildelt budget');

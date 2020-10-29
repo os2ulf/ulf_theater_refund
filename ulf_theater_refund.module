@@ -256,11 +256,11 @@ function ulf_theater_refund_block_view($delta = '') {
       $query->addExpression('SUM(field_tr_spent_amount_value)', 'spent_amount');
       $result = $query->execute()->fetchAll();
       $result = reset($result);
-      $granted_amount = $result->granted_amount;
-      $spent_amount = $result->spent_amount;
+
     }
 
     $year = $params['field_tr_date_value_3']['value']['year'] ?? date("Y");
+    $granted_amount = _tr_get_spent_budget($uid, $year);
     $allocatedBudget = _tr_get_allocated_budget($uid, $year);
 
     $remaining_budget = $allocatedBudget - $granted_amount;
@@ -355,6 +355,11 @@ function ulf_theater_refund_views_pre_render(&$view) {
         if ($value->field_field_receiving_class[0]['rendered']['#markup'] == 1) {
           $value->field_field_receiving_class[0]['rendered']['#markup'] = t('Yes');
         }
+      }
+
+      if (!empty($value->field_field_tr_requested_amount_1)) {
+        $amount_withour_vat = ($value->field_field_tr_requested_amount_1[0]['raw']['value'] * 0.8);
+        $value->field_field_tr_requested_amount_1[0]['rendered']['#markup'] =  number_format($amount_withour_vat, 2, ',', '');
       }
     }
   }

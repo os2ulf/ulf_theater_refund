@@ -61,7 +61,8 @@
   }
 }
 
-.tr-form .field-type-entityreference select {
+.tr-form .field-type-entityreference select,
+.tr-form .field-type-taxonomy-term-reference select {
   height: 3em;
   width: 100%;
 }
