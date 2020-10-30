@@ -180,32 +180,6 @@ function ulf_theater_refund_block_view($delta = '') {
           $query->condition('d.field_tr_date_value', $end, '<');
         }
       }
-
-      // Filter on semester.
-      if (isset($params['field_tr_date_value_2']['semester']) && count($params['field_tr_date_value_2']['semester']) > 0) {
-        $condition_group = db_or();
-        foreach ($params['field_tr_date_value_2']['semester'] as $semester) {
-          $exp = explode('_', $semester);
-          if (count($exp) == 2) {
-            $args = $exp[1] == 1
-              ? [
-                ':semester_' . $semester . '_min' => $exp[0] . '-01',
-                ':semester_' . $semester . '_max' => $exp[0] . '-06',
-              ]
-              : [
-                ':semester_' . $semester . '_min' => $exp[0] . '-07',
-                ':semester_' . $semester . '_max' => $exp[0] . '-12',
-              ];
-            $condition_group->where(
-              'DATE_FORMAT(FROM_UNIXTIME(d.field_tr_date_value), \'%Y-%m\') >= :semester_'
-              . $semester
-              . '_min AND DATE_FORMAT(FROM_UNIXTIME(d.field_tr_date_value), \'%Y-%m\') <= :semester_'
-              . $semester . '_max', $args
-            );
-          }
-        }
-        $query->condition($condition_group);
-      }
     }
 
     if (isset($params['field_tr_status_value']) && $params['field_tr_status_value'] != 'All') {
@@ -276,53 +250,6 @@ function ulf_theater_refund_block_view($delta = '') {
 }
 
 /**
- * Implements hook_views_query_alter().
- *
- * @param $view
- * @param views_plugin_query_default $query
- */
-function ulf_theater_refund_views_query_alter(&$view, &$query) {
-  if ($view->name == 'ulf_theater_refunds'
-    && ($view->current_display == 'theater_refunds_table'
-      || $view->current_display == 'theater_refunds_user')
-  ) {
-    //    kint($query);die;
-    $params = drupal_get_query_parameters();
-    if (isset($params['field_tr_date_value_2']['semester'])
-      && !empty($params['field_tr_date_value_2']['semester'])
-    ) {
-      $snippet = '';
-      $args = [];
-      foreach ($params['field_tr_date_value_2']['semester'] as $semester) {
-        $exp = explode('_', $semester);
-        if (count($exp) == 2) {
-          if ($snippet != '') {
-            $snippet .= ' OR ';
-          }
-          $snippet .= 'DATE_FORMAT(FROM_UNIXTIME(field_data_field_tr_date.field_tr_date_value), \'%Y-%m\') >= :semester_'
-            . $semester
-            . '_min AND DATE_FORMAT(FROM_UNIXTIME(field_data_field_tr_date.field_tr_date_value), \'%Y-%m\') <= :semester_'
-            . $semester . '_max';
-          if ($exp[1] == 1) {
-            $args[':semester_' . $semester . '_min'] = $exp[0] . '-01';
-            $args[':semester_' . $semester . '_max'] = $exp[0] . '-06';
-          }
-          else {
-            if ($exp[1] == 2) {
-              $args[':semester_' . $semester . '_min'] = $exp[0] . '-07';
-              $args[':semester_' . $semester . '_max'] = $exp[0] . '-12';
-            }
-          }
-        }
-      }
-      $group = $query->set_where_group();
-      $query->add_where_expression($group, $snippet, $args);
-      $query->ensure_table('field_data_field_tr_date');
-    }
-  }
-}
-
-/**
  * Implements hook_views_pre_render().
  */
 function ulf_theater_refund_views_pre_render(&$view) {
@@ -372,7 +299,7 @@ function ulf_theater_refund_entityform_access_alter(&$access, $op, $context) {
   $account = $context['account'];
   $entityform = $context['entityform'];
   if ($entityform->type === 'theater_refund' && !$access && $op == 'edit' && isset($entityform->uid) && $account->uid == $entityform->uid) {
-    $status = $entityform->field_tr_status[LANGUAGE_NONE][0]['value'];
+    $status = $entityform->field_tr_status[LANGUAGE_NONE][0]['value'] ?? NULL;
     if ($status == 'awaiting_payment') {
       $access = TRUE;
     }
