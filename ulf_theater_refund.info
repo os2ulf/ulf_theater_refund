@@ -35,7 +35,6 @@ features[features_api][] = api:2
 features[field_base][] = field_allocated_budget
 features[field_base][] = field_budget
 features[field_base][] = field_government_subsidy
-features[field_base][] = field_receiving_class
 features[field_base][] = field_tr_attachment
 features[field_base][] = field_tr_conditions
 features[field_base][] = field_tr_date
