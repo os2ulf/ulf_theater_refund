@@ -87,18 +87,6 @@ function ulf_theater_refund_cron() {
         $params['entityform'] = parseRefundFormData($course_request);
 
         $to = $wrapper->field_tr_mail->value();
-        if (drupal_mail('ulf_theater_refund', 'theater_refund_follow_up_mail', $to, $language, $params)) {
-          $course_request->field_tr_follow_up_mail_sent[LANGUAGE_NONE][0]['value']
-            = time();
-          $course_request->field_tr_mails_sent[LANGUAGE_NONE][] = [
-            'value' => t('Follow up mail sent', [], ['langcode' => $language->language]),
-            'format' => NULL,
-            'safe_value' => t('Follow up mail sent', [], ['langcode' => $language->language]),
-          ];
-
-          field_attach_presave('entityform', $course_request);
-          field_attach_update('entityform', $course_request);
-        }
       }
     }
   }
@@ -108,30 +96,6 @@ function parseRefundFormData($form_data) {
   $form = clone $form_data;
   $form->field_tr_date[LANGUAGE_NONE][0]['value'] = format_date($form_data->field_tr_date[LANGUAGE_NONE][0]['value'], 'custom', 'j. F Y');
   return $form;
-}
-
-/**
- * Implements hook_mailkeys().
- */
-function ulf_theater_refund_mailkeys() {
-  return [
-    'theater_refund_follow_up_mail' => t('Mail sent to schools the day after the course was held.'),
-  ];
-}
-
-/**
- * Implements hook_mail_edit_text().
- */
-function ulf_theater_refund_mail_edit_text($mailkey, $language) {
-  $return = [];
-  switch ($mailkey) {
-    case 'theater_refund_follow_up_mail':
-      $return['subject'] = 'Evaluate the course';
-      $return['always'] = TRUE;
-      $return['body'] = 'Here is a body text';
-      break;
-  }
-  return $return;
 }
 
 /**
