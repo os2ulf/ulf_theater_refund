@@ -159,3 +159,85 @@ function ulf_theater_refund_form_backend(array $form, array &$form_state) {
 
   return system_settings_form($form);
 }
+
+function ulf_theater_refund_teachers_overview() {
+  $params = drupal_get_query_parameters(  );
+  $year = $params['year'] ?? date('Y');
+
+  $query = db_select('users', 'u');
+  $query->fields('u', array('uid', 'name'));
+  $query->innerJoin('users_roles', 'r', 'r.uid = u.uid');
+  $query->innerJoin('field_data_field_profile_name', 'n', 'n.entity_id = u.uid');
+  $query->leftJoin('field_data_field_allocated_budget', 'a', 'a.entity_id = u.uid');
+  $query->leftJoin('field_data_field_budget', 'b', 'a.field_allocated_budget_value = b.entity_id && a.field_allocated_budget_revision_id = b.revision_id');
+  $query->leftJoin('field_data_field_year', 'y', 'a.field_allocated_budget_value = y.entity_id && a.field_allocated_budget_revision_id = y.revision_id');
+  $query->fields('n', array('field_profile_name_value'));
+
+  $query->condition('r.rid', '31');
+  $query->groupBy('u.uid');
+  if (!empty($params['year'])) {
+    $query->where("DATE_FORMAT(y.field_year_value, '%Y') = :year", [':year' => $year]);
+  }
+  $query->addExpression('SUM(field_budget_value)', 'budget');
+  $query->addExpression("DATE_FORMAT(y.field_year_value, '%Y')", 'year');
+  $query->orderBy('u.name');
+
+  $result = $query->execute();
+
+  $headers = [
+    'Name',
+    'Allocated budget',
+    'Spent budget',
+    'Remaining budget',
+    'Actions',
+  ];
+
+  $rows = [];
+  foreach($result as $user) {
+    $spent_budget = _tr_get_spent_budget($user->uid, $user->year);
+    $remaining_budget = $user->budget - $spent_budget;
+
+    $rows[] = [
+      l($user->field_profile_name_value, '/admin/config/system/theater_refund/user/'. $user->uid, ['query' => ['field_tr_date_value_3' => ['value' => ['year' => $user->year]]],'field_tr_status_value' => ['accepted']]),
+      $user->budget,
+      $spent_budget,
+      $remaining_budget < 0 ? 0 : $remaining_budget,
+      l(t('Edit'), 'user/' . $user->uid . '/edit', ['query' => [drupal_get_destination()]])
+    ];
+  }
+
+  $form = drupal_get_form('ulf_theater_refund_filter_form') ;
+  return drupal_render($form) . theme_table([
+    'header' => $headers,
+    'rows' => $rows,
+    'attributes' => [],
+    'caption' => NULL,
+    'colgroups' => NULL,
+    'sticky' => FALSE,
+    'empty' => NULL,
+  ]);
+}
+
+function ulf_theater_refund_filter_form($form, &$form_state) {
+  $params = drupal_get_query_parameters();
+
+  $current_year = date('Y');
+
+  $range = range($current_year - 3, $current_year + 3);
+  $years = array_combine($range, $range);
+
+  $form['#method'] = 'get';
+
+  $form['year'] = array(
+    '#type' => 'select',
+    '#options' => $years,
+    '#default_value' => $params['year'] ?? $current_year,
+  );
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Filter'),
+  );
+
+  return $form;
+}

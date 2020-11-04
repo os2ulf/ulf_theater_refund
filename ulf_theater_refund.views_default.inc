@@ -1147,6 +1147,303 @@ function ulf_theater_refund_views_default_views() {
     'default' => 0,
     'theater_refunds_user' => 0,
   );
+
+  /* Display: All applications */
+  $handler = $view->new_display('page', 'All applications', 'page_2');
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'administer ulf theater refund settings';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Forbindelse: Entity Reference: Refereret entity */
+  $handler->display->display_options['relationships']['field_tr_school_target_id']['id'] = 'field_tr_school_target_id';
+  $handler->display->display_options['relationships']['field_tr_school_target_id']['table'] = 'field_data_field_tr_school';
+  $handler->display->display_options['relationships']['field_tr_school_target_id']['field'] = 'field_tr_school_target_id';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Felt: Masse-handlinger: Entityform Submission */
+  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'views_entity_entityform';
+  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
+  $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['row_clickable'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::_tr_accept' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::_tr_change_status_accepted' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::_tr_cancelled' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::_tr_payment_completed' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::_tr_ready_for_payment' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::_tr_change_status_refused' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::_tr_close' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::_tr_refuse' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_delete_item' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'skip_permission_check' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'log' => 0,
+      ),
+    ),
+  );
+  /* Felt: Entityform Submission: Entityform submission ID */
+  $handler->display->display_options['fields']['entityform_id']['id'] = 'entityform_id';
+  $handler->display->display_options['fields']['entityform_id']['table'] = 'entityform';
+  $handler->display->display_options['fields']['entityform_id']['field'] = 'entityform_id';
+  $handler->display->display_options['fields']['entityform_id']['label'] = 'ID';
+  $handler->display->display_options['fields']['entityform_id']['separator'] = '';
+  /* Felt: Entityform Submission: Skole */
+  $handler->display->display_options['fields']['field_tr_school']['id'] = 'field_tr_school';
+  $handler->display->display_options['fields']['field_tr_school']['table'] = 'field_data_field_tr_school';
+  $handler->display->display_options['fields']['field_tr_school']['field'] = 'field_tr_school';
+  $handler->display->display_options['fields']['field_tr_school']['settings'] = array(
+    'bypass_access' => 0,
+    'link' => 0,
+  );
+  /* Felt: Entityform Submission: Klasse */
+  $handler->display->display_options['fields']['field_tr_grade']['id'] = 'field_tr_grade';
+  $handler->display->display_options['fields']['field_tr_grade']['table'] = 'field_data_field_tr_grade';
+  $handler->display->display_options['fields']['field_tr_grade']['field'] = 'field_tr_grade';
+  /* Felt: Entityform Submission: Navn */
+  $handler->display->display_options['fields']['field_tr_name']['id'] = 'field_tr_name';
+  $handler->display->display_options['fields']['field_tr_name']['table'] = 'field_data_field_tr_name';
+  $handler->display->display_options['fields']['field_tr_name']['field'] = 'field_tr_name';
+  /* Felt: Entityform Submission: Teater */
+  $handler->display->display_options['fields']['field_tr_provider_name']['id'] = 'field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['table'] = 'field_data_field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['field'] = 'field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['exclude'] = TRUE;
+  /* Felt: Entityform Submission: Forestilling */
+  $handler->display->display_options['fields']['field_tr_new_course_name']['id'] = 'field_tr_new_course_name';
+  $handler->display->display_options['fields']['field_tr_new_course_name']['table'] = 'field_data_field_tr_new_course_name';
+  $handler->display->display_options['fields']['field_tr_new_course_name']['field'] = 'field_tr_new_course_name';
+  $handler->display->display_options['fields']['field_tr_new_course_name']['exclude'] = TRUE;
+  /* Felt: Entityform Submission: Antal */
+  $handler->display->display_options['fields']['field_tr_quantity']['id'] = 'field_tr_quantity';
+  $handler->display->display_options['fields']['field_tr_quantity']['table'] = 'field_data_field_tr_quantity';
+  $handler->display->display_options['fields']['field_tr_quantity']['field'] = 'field_tr_quantity';
+  $handler->display->display_options['fields']['field_tr_quantity']['settings'] = array(
+    'thousand_separator' => '',
+    'prefix_suffix' => 1,
+  );
+  /* Felt: Entityform Submission: Afviklingsdato */
+  $handler->display->display_options['fields']['field_tr_date']['id'] = 'field_tr_date';
+  $handler->display->display_options['fields']['field_tr_date']['table'] = 'field_data_field_tr_date';
+  $handler->display->display_options['fields']['field_tr_date']['field'] = 'field_tr_date';
+  $handler->display->display_options['fields']['field_tr_date']['settings'] = array(
+    'format_type' => 'short',
+    'custom_date_format' => '',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'show_remaining_days' => 0,
+  );
+  /* Felt: Entityform Submission: Afviklingsdato */
+  $handler->display->display_options['fields']['field_tr_date_1']['id'] = 'field_tr_date_1';
+  $handler->display->display_options['fields']['field_tr_date_1']['table'] = 'field_data_field_tr_date';
+  $handler->display->display_options['fields']['field_tr_date_1']['field'] = 'field_tr_date';
+  $handler->display->display_options['fields']['field_tr_date_1']['label'] = 'Skoleår';
+  $handler->display->display_options['fields']['field_tr_date_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_tr_date_1']['settings'] = array(
+    'format_type' => 'custom',
+    'custom_date_format' => 'U',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'show_remaining_days' => 0,
+  );
+  /* Felt: Entityform Submission: Ansøgt beløb */
+  $handler->display->display_options['fields']['field_tr_requested_amount']['id'] = 'field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount']['table'] = 'field_data_field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount']['field'] = 'field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount']['label'] = 'Ansøgt beløb (inkl. moms)';
+  $handler->display->display_options['fields']['field_tr_requested_amount']['settings'] = array(
+    'thousand_separator' => '',
+    'decimal_separator' => ',',
+    'scale' => '2',
+    'prefix_suffix' => 1,
+  );
+  /* Felt: Entityform Submission: Ansøgt beløb */
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['id'] = 'field_tr_requested_amount_1';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['table'] = 'field_data_field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['field'] = 'field_tr_requested_amount';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['label'] = 'Ansøgt beløb (ekskl. moms)';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['alter']['text'] = '[field_tr_requested_amount_1-value] * 0.8';
+  $handler->display->display_options['fields']['field_tr_requested_amount_1']['settings'] = array(
+    'thousand_separator' => '',
+    'decimal_separator' => '.',
+    'scale' => '2',
+    'prefix_suffix' => 1,
+  );
+  /* Felt: Entityform Submission: Status */
+  $handler->display->display_options['fields']['field_tr_status']['id'] = 'field_tr_status';
+  $handler->display->display_options['fields']['field_tr_status']['table'] = 'field_data_field_tr_status';
+  $handler->display->display_options['fields']['field_tr_status']['field'] = 'field_tr_status';
+  /* Felt: Entityform Submission: Bevilget beløb */
+  $handler->display->display_options['fields']['field_tr_granted_amount']['id'] = 'field_tr_granted_amount';
+  $handler->display->display_options['fields']['field_tr_granted_amount']['table'] = 'field_data_field_tr_granted_amount';
+  $handler->display->display_options['fields']['field_tr_granted_amount']['field'] = 'field_tr_granted_amount';
+  $handler->display->display_options['fields']['field_tr_granted_amount']['settings'] = array(
+    'thousand_separator' => '',
+    'decimal_separator' => ',',
+    'scale' => '2',
+    'prefix_suffix' => 1,
+  );
+  /* Felt: Entityform Submission: Forbrugt beløb (eks. moms) */
+  $handler->display->display_options['fields']['field_tr_spent_amount']['id'] = 'field_tr_spent_amount';
+  $handler->display->display_options['fields']['field_tr_spent_amount']['table'] = 'field_data_field_tr_spent_amount';
+  $handler->display->display_options['fields']['field_tr_spent_amount']['field'] = 'field_tr_spent_amount';
+  $handler->display->display_options['fields']['field_tr_spent_amount']['label'] = 'Forbrugt beløb';
+  $handler->display->display_options['fields']['field_tr_spent_amount']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_tr_spent_amount']['settings'] = array(
+    'thousand_separator' => '',
+    'decimal_separator' => ',',
+    'scale' => '2',
+    'prefix_suffix' => 1,
+  );
+  /* Felt: Entityform Submission: Bilag */
+  $handler->display->display_options['fields']['field_tr_attachment']['id'] = 'field_tr_attachment';
+  $handler->display->display_options['fields']['field_tr_attachment']['table'] = 'field_data_field_tr_attachment';
+  $handler->display->display_options['fields']['field_tr_attachment']['field'] = 'field_tr_attachment';
+  $handler->display->display_options['fields']['field_tr_attachment']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_tr_attachment']['alter']['text'] = '<a href="[field_tr_attachment]" target="_blank">Bilag</a>';
+  $handler->display->display_options['fields']['field_tr_attachment']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_tr_attachment']['type'] = 'file_url_plain';
+  /* Felt: Entityform Submission: Udbetalingsdato */
+  $handler->display->display_options['fields']['field_tr_payment_date']['id'] = 'field_tr_payment_date';
+  $handler->display->display_options['fields']['field_tr_payment_date']['table'] = 'field_data_field_tr_payment_date';
+  $handler->display->display_options['fields']['field_tr_payment_date']['field'] = 'field_tr_payment_date';
+  $handler->display->display_options['fields']['field_tr_payment_date']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_tr_payment_date']['settings'] = array(
+    'format_type' => 'short',
+    'custom_date_format' => '',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'show_remaining_days' => 0,
+  );
+  /* Felt: Entityform Submission: Bemærkninger */
+  $handler->display->display_options['fields']['field_tr_remarks']['id'] = 'field_tr_remarks';
+  $handler->display->display_options['fields']['field_tr_remarks']['table'] = 'field_data_field_tr_remarks';
+  $handler->display->display_options['fields']['field_tr_remarks']['field'] = 'field_tr_remarks';
+  /* Felt: Entityform Submission: Senest ændret af */
+  $handler->display->display_options['fields']['field_tr_latest_editor']['id'] = 'field_tr_latest_editor';
+  $handler->display->display_options['fields']['field_tr_latest_editor']['table'] = 'field_data_field_tr_latest_editor';
+  $handler->display->display_options['fields']['field_tr_latest_editor']['field'] = 'field_tr_latest_editor';
+  $handler->display->display_options['fields']['field_tr_latest_editor']['settings'] = array(
+    'bypass_access' => 0,
+    'link' => 0,
+  );
+  /* Felt: Entityform Submission: Sendte mails */
+  $handler->display->display_options['fields']['field_tr_mails_sent']['id'] = 'field_tr_mails_sent';
+  $handler->display->display_options['fields']['field_tr_mails_sent']['table'] = 'field_data_field_tr_mails_sent';
+  $handler->display->display_options['fields']['field_tr_mails_sent']['field'] = 'field_tr_mails_sent';
+  $handler->display->display_options['fields']['field_tr_mails_sent']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_tr_mails_sent']['multi_type'] = 'ol';
+  /* Felt: Entityform Submission: Redigér link */
+  $handler->display->display_options['fields']['edit_entityform']['id'] = 'edit_entityform';
+  $handler->display->display_options['fields']['edit_entityform']['table'] = 'entityform';
+  $handler->display->display_options['fields']['edit_entityform']['field'] = 'edit_entityform';
+  $handler->display->display_options['fields']['edit_entityform']['label'] = '';
+  $handler->display->display_options['fields']['edit_entityform']['element_label_colon'] = FALSE;
+  /* Felt: Bruger: Navn */
+  $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
+  $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
+  $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
+  $handler->display->display_options['fields']['field_profile_name']['relationship'] = 'field_tr_school_target_id';
+  $handler->display->display_options['fields']['field_profile_name']['label'] = 'Skole';
+  $handler->display->display_options['fields']['field_profile_name']['exclude'] = TRUE;
+  /* Felt: Bruger: Navn */
+  $handler->display->display_options['fields']['field_profile_name_1']['id'] = 'field_profile_name_1';
+  $handler->display->display_options['fields']['field_profile_name_1']['table'] = 'field_data_field_profile_name';
+  $handler->display->display_options['fields']['field_profile_name_1']['field'] = 'field_profile_name';
+  $handler->display->display_options['fields']['field_profile_name_1']['relationship'] = 'field_tr_provider_target_id';
+  $handler->display->display_options['fields']['field_profile_name_1']['label'] = 'Udbyder';
+  $handler->display->display_options['fields']['field_profile_name_1']['exclude'] = TRUE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Kontekstuelt filter: Entityform Submission: Uid */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'entityform';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['path'] = 'admin/config/system/theater_refund/user/%';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Theater refunds';
+  $handler->display->display_options['menu']['description'] = 'Theater refunds';
+  $handler->display->display_options['menu']['weight'] = '10';
+  $handler->display->display_options['menu']['name'] = 'management';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $handler->display->display_options['tab_options']['weight'] = '0';
   $translatables['ulf_theater_refunds'] = array(
     t('Master'),
     t('Alle ansoegninger'),
@@ -1215,6 +1512,7 @@ function ulf_theater_refund_views_default_views() {
     t('Telefonnr'),
     t('Ansøgt beløb'),
     t('Indsendelsesdato'),
+    t('Alle'),
   );
   $export['ulf_theater_refunds'] = $view;
 

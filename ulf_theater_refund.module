@@ -28,9 +28,20 @@ function ulf_theater_refund_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => ['ulf_theater_refund_form_backend'],
     'type' => MENU_LOCAL_TASK,
-    'access arguments' => ['administer ulf free course request settings'],
+    'access arguments' => ['administer ulf theater refund settings'],
     'file' => 'ulf_theater_refund.backend.inc',
     'file path' => drupal_get_path('module', 'ulf_theater_refund'),
+  ];
+
+  $items['admin/config/system/theater_refund/teachers'] = [
+    'title' => 'Theater refund overview',
+    'page callback' => 'ulf_theater_refund_teachers_overview',
+    'type' => MENU_LOCAL_TASK,
+    'access arguments' => ['administer ulf theater refund settings'],
+    'file' => 'ulf_theater_refund.backend.inc',
+    'file path' => drupal_get_path('module', 'ulf_theater_refund'),
+    'weight' => -9,
+
   ];
 
   return $items;
@@ -146,6 +157,8 @@ function ulf_theater_refund_block_view($delta = '') {
     $spent_amount = 0;
 
     $params = drupal_get_query_parameters();
+    $args = arg();
+
     $query = db_select('entityform', 'e');
     $query->leftJoin('field_data_field_tr_requested_amount', 'ra', 'e.entityform_id = ra.entity_id');
     $query->leftJoin('field_data_field_tr_granted_amount', 'ga', 'e.entityform_id = ga.entity_id');
@@ -191,10 +204,9 @@ function ulf_theater_refund_block_view($delta = '') {
       $query->leftJoin('field_data_field_tr_status', 's', 'e.entityform_id = s.entity_id');
       $query->condition('s.field_tr_status_value', $params['field_tr_status_value'], 'IN');
     }
-    $uid = arg(3);
-    if ($uid && $uid > 0) {
-      //      $query->leftJoin('field_data_field_tr_school', 'field_data_field_tr_school_filter', 'e.entityform_id = field_data_field_tr_school_filter.entity_id');
-      //      $query->condition('field_data_field_tr_school_filter.field_tr_school_target_id', $uid);
+
+    $uid = arg(5);
+    if ($uid && is_numeric($uid) && $uid > 0) {
       $query->condition('e.uid', $uid);
     }
 
