@@ -20,6 +20,7 @@ function ulf_theater_refund_default_fe_block_settings() {
     'module' => 'ulf_theater_refund',
     'node_types' => array(),
     'pages' => 'admin/config/system/theater_refund
+admin/config/system/theater_refund/user/*
 admin/teater-refusion/ansoegninger/*',
     'roles' => array(),
     'themes' => array(

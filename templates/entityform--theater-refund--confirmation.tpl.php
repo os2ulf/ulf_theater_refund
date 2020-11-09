@@ -28,7 +28,7 @@
  * @see template_process()
  */
 ?>
-<?php drupal_add_css(drupal_get_path('module', 'ulf_free_course_request') . '/css/styling.css');?>
+<?php drupal_add_css(drupal_get_path('module', 'ulf_theater_refund') . '/css/styling.css');?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <?php if (!$page): ?>
     <h2<?php print $title_attributes; ?>>

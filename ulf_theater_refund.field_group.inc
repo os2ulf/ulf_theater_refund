@@ -50,18 +50,18 @@ function ulf_theater_refund_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Forløb',
+    'label' => 'Forestilling',
     'weight' => '2',
     'children' => array(
       0 => 'field_tr_date',
       1 => 'field_tr_new_course_name',
-      2 => 'field_tr_provider_name',
-      3 => 'field_tr_requested_amount',
-      4 => 'field_tr_quantity',
+      2 => 'field_tr_requested_amount',
+      3 => 'field_tr_quantity',
+      4 => 'field_tr_provider_name',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Forløb',
+      'label' => 'Forestilling',
       'instance_settings' => array(
         'required_fields' => 0,
         'id' => '',
@@ -151,12 +151,11 @@ function ulf_theater_refund_field_group_info() {
     'label' => 'Skole',
     'weight' => '1',
     'children' => array(
-      0 => 'field_receiving_class',
-      1 => 'field_tr_grade',
-      2 => 'field_tr_mail',
-      3 => 'field_tr_name',
-      4 => 'field_tr_phone',
-      5 => 'field_tr_school',
+      0 => 'field_tr_grade',
+      1 => 'field_tr_mail',
+      2 => 'field_tr_name',
+      3 => 'field_tr_phone',
+      4 => 'field_tr_school',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -205,7 +204,7 @@ function ulf_theater_refund_field_group_info() {
   // Included for use with string extractors like potx.
   t('Databeskyttelse');
   t('Det med småt');
-  t('Forløb');
+  t('Forestilling');
   t('Redaktion');
   t('Skole');
   t('Udbetaling');
