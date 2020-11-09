@@ -67,6 +67,10 @@ function ulf_theater_refund_form_theater_refund_entityform_edit_form_alter(&$for
   $form['field_tr_latest_editor']['#access'] = FALSE;
 
 
+  if (!empty($form['field_tr_requested_amount'][LANGUAGE_NONE][0]['value']['#default_value']) && user_access('administer ulf theater refund settings', $user)) {
+    $form['field_tr_granted_amount'][LANGUAGE_NONE]['0']['#suffix'] = t('Requested amount ex. vat: <strong>!amount</strong>', ['!amount' => number_format(((int) $form['field_tr_requested_amount'][LANGUAGE_NONE][0]['value']['#default_value'] * 0.8), 2, ',', '.')]);
+  }
+
   // Auto fill send mail checkbox when editing an application.
   if ($form_state['entityform_form_mode'] == 'edit') {
     $form['field_tr_send_mail'][LANGUAGE_NONE]['#default_value'] = 1;
@@ -99,7 +103,8 @@ function ulf_theater_refund_form_theater_refund_entityform_edit_form_alter(&$for
 
     // Show an confirmation popup of the user is an editor
     $requested_amount = $form['field_tr_requested_amount'][LANGUAGE_NONE][0]['value']['#default_value'];
-    $form['actions']['save']['#attributes'] = array('onclick' => 'if(jQuery("#edit-field-tr-status select").val() == "accepted" && !confirm("Teaterkontaktlærer har '. _tr_get_remaining_budget($entity->uid,'2020', $entity->entityform_id ) .' kr. i restbudget, vil du godkende denne ansøgning på '. $requested_amount .' kr.?")){return false;}');
+    $date = date('Y', $form['field_tr_date'][LANGUAGE_NONE][0]['#default_value']['value']);
+    $form['actions']['save']['#attributes'] = array('onclick' => 'if(jQuery("#edit-field-tr-status select").val() == "accepted" && !confirm("Teaterkontaktlærer har '. _tr_get_remaining_budget($entity->uid, $date, $entity->entityform_id ) .' kr. i restbudget, vil du godkende denne ansøgning på " + jQuery("#edit-field-tr-granted-amount-und-0-value").val() + " kr.?")){return false;}');
   }
   else {
     if (in_array('teaterkontakt', $user->roles) && ($status == 'accepted' || $status == 'awaiting_payment')) {
@@ -667,8 +672,10 @@ function _tr_get_spent_budget($uid, $year) {
   $query->leftJoin('field_data_field_tr_granted_amount', 'ga', 'e.entityform_id = ga.entity_id');
   $query->leftJoin('field_data_field_tr_provider_name', 'pn', 'e.entityform_id = pn.entity_id');
   $query->leftJoin('field_data_field_government_subsidy', 'gs', 'pn.field_tr_provider_name_tid = gs.entity_id');
+  $query->leftJoin('field_data_field_tr_status', 's', 'e.entityform_id = s.entity_id');
 
   $query->condition('e.type', 'theater_refund');
+  $query->condition('s.field_tr_status_value', ['awaiting', 'refused', 'cancelled'], 'NOT IN');
 
   if (!empty($uid) && is_numeric($uid)) {
     $query->condition('e.uid', $uid);

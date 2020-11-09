@@ -132,6 +132,10 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $school_id = $wrapper->field_tr_school->value();
   $school_wrapper = entity_metadata_wrapper('user', $school_id);
 
+  // Provider wrapper
+  $provider_id = $wrapper->field_tr_provider_name->value();
+  $provider_wrapper = entity_metadata_wrapper('taxonomy_term', $provider_id);
+
   $application .= '<h3>';
   $application .= t('Status of theater reimbursement after this grant for :year', array(':year' => $year), $translation_lang);
   $application .= ':</h3>';
@@ -173,7 +177,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $application .= '<strong>';
   $application .= t('Theater', array(), $translation_lang);
   $application .= ':</strong> ';
-  $application .= $wrapper->field_tr_provider_name->value();
+  $application .= $provider_wrapper->label();
   $application .= '<br/>';
   $application .= '<strong>';
   $application .= t('Show', array(), $translation_lang);
@@ -183,7 +187,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $application .= '<strong>';
   $application .= t('Quantity', array(), $translation_lang);
   $application .= ':</strong> ';
-  $application .= $wrapper->field_tr_quantity->value() . ' kr.';
+  $application .= $wrapper->field_tr_quantity->value();
   $application .= '<br/>';
   $application .= '<strong>';
   $application .= t('Requested amount', array(), $translation_lang);
@@ -194,6 +198,19 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $application .= t('Date', array(), $translation_lang);
   $application .= ':</strong> ';
   $application .= date('d/m/Y', $wrapper->field_tr_date->value());
+  $application .= '<br/>';
+  $application .= '<br/>';
+
+  $application .= '<strong>'. t('Allocated budget', array(), $translation_lang) .'</strong>: ';
+  $application .= number_format(_tr_get_allocated_budget($uid, $year), 2, ',', '.') . ' kr.';
+  $application .= '<br/>';
+
+  $application .= '<strong>'. t('Spent budget', array(), $translation_lang) .'</strong>: ';
+  $application .= number_format(_tr_get_spent_budget($uid, $year), 2, ',', '.') . ' kr.';
+  $application .= '<br/>';
+
+  $application .= '<strong>'. t('Remaining budget', array(), $translation_lang) .'</strong>: ';
+  $application .= number_format(_tr_get_remaining_budget($uid, $year), 2, ',', '.') . ' kr.';
   $application .= '</p>';
 
   return $application;

@@ -175,7 +175,7 @@ function ulf_theater_refund_teachers_overview() {
 
   $query->condition('r.rid', '31');
   $query->groupBy('u.uid');
-  if (!empty($params['year'])) {
+  if (!empty($year)) {
     $query->where("DATE_FORMAT(y.field_year_value, '%Y') = :year", [':year' => $year]);
   }
   $query->addExpression('SUM(field_budget_value)', 'budget');
