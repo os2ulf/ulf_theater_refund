@@ -388,3 +388,29 @@ function ulf_theater_refund_menu_local_tasks_alter(&$data, $router_item, $root_p
     }
   }
 }
+
+/**
+ * @param $form
+ * @param $form_state
+ *
+ * @return false|string
+ */
+function ajax_check_government_subsidy($form, $form_state) {
+  $provider_id = $form_state['values']['field_tr_provider_name'][LANGUAGE_NONE][0]['tid'];
+  $db_result = db_select('field_data_field_government_subsidy','g')
+    ->fields('g', ['field_government_subsidy_value'])
+    ->condition('entity_id', $provider_id)
+    ->condition('field_government_subsidy_value', 1)
+    ->execute()->fetchField();
+
+  $result = array('#type' => 'ajax');
+
+  $output = '<div class="tr-warning-message"></div>';
+
+  if ($db_result == 1) {
+    $output = '<div class="tr-warning-message">OBS! Dette teater modtager i forvejen statstilskud, og vi kan derfor ikke søge statsrefusion til forestillingen. Det betyder, at I anvender dobbelt kommunal støtte på forestillingen.</div>';
+  }
+
+  $result['#commands'][] = ajax_command_replace('.field-name-field-tr-provider-name .tr-warning-message', $output);
+  return $result;
+}
