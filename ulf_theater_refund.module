@@ -170,6 +170,11 @@ function ulf_theater_refund_block_view($delta = '') {
     }
 
     $uid = arg(5);
+
+    if($uid == NULL) {
+      $uid = arg(3);
+    }
+    
     if ($uid && is_numeric($uid) && $uid > 0) {
       $query->condition('e.uid', $uid);
     }
