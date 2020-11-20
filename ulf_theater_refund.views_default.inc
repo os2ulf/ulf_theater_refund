@@ -659,28 +659,6 @@ function ulf_theater_refund_views_default_views() {
     'scale' => '2',
     'prefix_suffix' => 1,
   );
-  /* Felt: Entityform Submission: Bilag */
-  $handler->display->display_options['fields']['field_tr_attachment']['id'] = 'field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['table'] = 'field_data_field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['field'] = 'field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_tr_attachment']['alter']['text'] = '<a href="[field_tr_attachment]" target="_blank">Bilag</a>';
-  $handler->display->display_options['fields']['field_tr_attachment']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_tr_attachment']['type'] = 'file_url_plain';
-  /* Felt: Entityform Submission: Udbetalingsdato */
-  $handler->display->display_options['fields']['field_tr_payment_date']['id'] = 'field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['table'] = 'field_data_field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['field'] = 'field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_tr_payment_date']['settings'] = array(
-    'format_type' => 'short',
-    'custom_date_format' => '',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-    'show_remaining_days' => 0,
-  );
   /* Felt: Entityform Submission: Bemærkninger */
   $handler->display->display_options['fields']['field_tr_remarks']['id'] = 'field_tr_remarks';
   $handler->display->display_options['fields']['field_tr_remarks']['table'] = 'field_data_field_tr_remarks';
@@ -705,14 +683,14 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['edit_entityform']['field'] = 'edit_entityform';
   $handler->display->display_options['fields']['edit_entityform']['label'] = '';
   $handler->display->display_options['fields']['edit_entityform']['element_label_colon'] = FALSE;
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['relationship'] = 'field_tr_school_target_id';
   $handler->display->display_options['fields']['field_profile_name']['label'] = 'Skole';
   $handler->display->display_options['fields']['field_profile_name']['exclude'] = TRUE;
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name_1']['id'] = 'field_profile_name_1';
   $handler->display->display_options['fields']['field_profile_name_1']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name_1']['field'] = 'field_profile_name';
@@ -754,7 +732,7 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_name']['id'] = 'field_tr_name';
   $handler->display->display_options['fields']['field_tr_name']['table'] = 'field_data_field_tr_name';
   $handler->display->display_options['fields']['field_tr_name']['field'] = 'field_tr_name';
-  /* Felt: Bruger: CVR */
+  /* Felt: User: CVR */
   $handler->display->display_options['fields']['field_profile_cvr']['id'] = 'field_profile_cvr';
   $handler->display->display_options['fields']['field_profile_cvr']['table'] = 'field_data_field_profile_cvr';
   $handler->display->display_options['fields']['field_profile_cvr']['field'] = 'field_profile_cvr';
@@ -848,33 +826,11 @@ function ulf_theater_refund_views_default_views() {
     'scale' => '2',
     'prefix_suffix' => 1,
   );
-  /* Felt: Entityform Submission: Bilag */
-  $handler->display->display_options['fields']['field_tr_attachment']['id'] = 'field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['table'] = 'field_data_field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['field'] = 'field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_tr_attachment']['alter']['text'] = '<a href="[field_tr_attachment]" target="_blank">Bilag</a>';
-  $handler->display->display_options['fields']['field_tr_attachment']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_tr_attachment']['type'] = 'file_url_plain';
-  /* Felt: Entityform Submission: Udbetalingsdato */
-  $handler->display->display_options['fields']['field_tr_payment_date']['id'] = 'field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['table'] = 'field_data_field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['field'] = 'field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_tr_payment_date']['settings'] = array(
-    'format_type' => 'short',
-    'custom_date_format' => '',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-    'show_remaining_days' => 0,
-  );
   /* Felt: Entityform Submission: Bemærkninger */
   $handler->display->display_options['fields']['field_tr_remarks']['id'] = 'field_tr_remarks';
   $handler->display->display_options['fields']['field_tr_remarks']['table'] = 'field_data_field_tr_remarks';
   $handler->display->display_options['fields']['field_tr_remarks']['field'] = 'field_tr_remarks';
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
@@ -1364,28 +1320,6 @@ function ulf_theater_refund_views_default_views() {
     'scale' => '2',
     'prefix_suffix' => 1,
   );
-  /* Felt: Entityform Submission: Bilag */
-  $handler->display->display_options['fields']['field_tr_attachment']['id'] = 'field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['table'] = 'field_data_field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['field'] = 'field_tr_attachment';
-  $handler->display->display_options['fields']['field_tr_attachment']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_tr_attachment']['alter']['text'] = '<a href="[field_tr_attachment]" target="_blank">Bilag</a>';
-  $handler->display->display_options['fields']['field_tr_attachment']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_tr_attachment']['type'] = 'file_url_plain';
-  /* Felt: Entityform Submission: Udbetalingsdato */
-  $handler->display->display_options['fields']['field_tr_payment_date']['id'] = 'field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['table'] = 'field_data_field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['field'] = 'field_tr_payment_date';
-  $handler->display->display_options['fields']['field_tr_payment_date']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_tr_payment_date']['settings'] = array(
-    'format_type' => 'short',
-    'custom_date_format' => '',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-    'show_remaining_days' => 0,
-  );
   /* Felt: Entityform Submission: Bemærkninger */
   $handler->display->display_options['fields']['field_tr_remarks']['id'] = 'field_tr_remarks';
   $handler->display->display_options['fields']['field_tr_remarks']['table'] = 'field_data_field_tr_remarks';
@@ -1410,14 +1344,14 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['edit_entityform']['field'] = 'edit_entityform';
   $handler->display->display_options['fields']['edit_entityform']['label'] = '';
   $handler->display->display_options['fields']['edit_entityform']['element_label_colon'] = FALSE;
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['relationship'] = 'field_tr_school_target_id';
   $handler->display->display_options['fields']['field_profile_name']['label'] = 'Skole';
   $handler->display->display_options['fields']['field_profile_name']['exclude'] = TRUE;
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name_1']['id'] = 'field_profile_name_1';
   $handler->display->display_options['fields']['field_profile_name_1']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name_1']['field'] = 'field_profile_name';
@@ -1460,7 +1394,7 @@ function ulf_theater_refund_views_default_views() {
     t('‹ forrige'),
     t('næste ›'),
     t('sidste »'),
-    t('Bruger entity refereret fra field_tr_school'),
+    t('User entity refereret fra field_tr_school'),
     t('field_tr_provider_target_id'),
     t('field_tr_course_target_id'),
     t('forfatter'),
@@ -1494,9 +1428,6 @@ function ulf_theater_refund_views_default_views() {
     t('[field_tr_requested_amount_1-value] * 0.8'),
     t('Bevilget beløb'),
     t('Forbrugt beløb'),
-    t('Bilag'),
-    t('<a href="[field_tr_attachment]" target="_blank">Bilag</a>'),
-    t('Udbetalingsdato'),
     t('Bemærkninger'),
     t('Senest ændret af'),
     t('Sendte mails'),
@@ -1511,6 +1442,7 @@ function ulf_theater_refund_views_default_views() {
     t('Mailadresse'),
     t('Telefonnr'),
     t('Ansøgt beløb'),
+    t('Udbetalingsdato'),
     t('Indsendelsesdato'),
     t('Alle'),
   );
@@ -1579,7 +1511,7 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'course' => 'course',
   );
-  /* Filterkriterie: Indhold: Overordnet målgruppe (field_target_group) */
+  /* Filterkriterie: Node: Overordnet målgruppe (field_target_group) */
   $handler->display->display_options['filters']['field_target_group_tid']['id'] = 'field_target_group_tid';
   $handler->display->display_options['filters']['field_target_group_tid']['table'] = 'field_data_field_target_group';
   $handler->display->display_options['filters']['field_target_group_tid']['field'] = 'field_target_group_tid';
@@ -1664,7 +1596,7 @@ function ulf_theater_refund_views_default_views() {
     ),
   );
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Felt: Bruger: Navn */
+  /* Felt: User: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
