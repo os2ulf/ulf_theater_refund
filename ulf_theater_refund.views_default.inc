@@ -595,21 +595,6 @@ function ulf_theater_refund_views_default_views() {
     'multiple_to' => '',
     'show_remaining_days' => 0,
   );
-  /* Felt: Entityform Submission: Afviklingsdato */
-  $handler->display->display_options['fields']['field_tr_date_1']['id'] = 'field_tr_date_1';
-  $handler->display->display_options['fields']['field_tr_date_1']['table'] = 'field_data_field_tr_date';
-  $handler->display->display_options['fields']['field_tr_date_1']['field'] = 'field_tr_date';
-  $handler->display->display_options['fields']['field_tr_date_1']['label'] = 'Skoleår';
-  $handler->display->display_options['fields']['field_tr_date_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_tr_date_1']['settings'] = array(
-    'format_type' => 'custom',
-    'custom_date_format' => 'U',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-    'show_remaining_days' => 0,
-  );
   /* Felt: Entityform Submission: Ansøgt beløb */
   $handler->display->display_options['fields']['field_tr_requested_amount']['id'] = 'field_tr_requested_amount';
   $handler->display->display_options['fields']['field_tr_requested_amount']['table'] = 'field_data_field_tr_requested_amount';
@@ -757,21 +742,6 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_date']['settings'] = array(
     'format_type' => 'short',
     'custom_date_format' => '',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-    'show_remaining_days' => 0,
-  );
-  /* Felt: Entityform Submission: Afviklingsdato */
-  $handler->display->display_options['fields']['field_tr_date_1']['id'] = 'field_tr_date_1';
-  $handler->display->display_options['fields']['field_tr_date_1']['table'] = 'field_data_field_tr_date';
-  $handler->display->display_options['fields']['field_tr_date_1']['field'] = 'field_tr_date';
-  $handler->display->display_options['fields']['field_tr_date_1']['label'] = 'Skoleår';
-  $handler->display->display_options['fields']['field_tr_date_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_tr_date_1']['settings'] = array(
-    'format_type' => 'custom',
-    'custom_date_format' => 'U',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -1256,21 +1226,6 @@ function ulf_theater_refund_views_default_views() {
     'multiple_to' => '',
     'show_remaining_days' => 0,
   );
-  /* Felt: Entityform Submission: Afviklingsdato */
-  $handler->display->display_options['fields']['field_tr_date_1']['id'] = 'field_tr_date_1';
-  $handler->display->display_options['fields']['field_tr_date_1']['table'] = 'field_data_field_tr_date';
-  $handler->display->display_options['fields']['field_tr_date_1']['field'] = 'field_tr_date';
-  $handler->display->display_options['fields']['field_tr_date_1']['label'] = 'Skoleår';
-  $handler->display->display_options['fields']['field_tr_date_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_tr_date_1']['settings'] = array(
-    'format_type' => 'custom',
-    'custom_date_format' => 'U',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-    'show_remaining_days' => 0,
-  );
   /* Felt: Entityform Submission: Ansøgt beløb */
   $handler->display->display_options['fields']['field_tr_requested_amount']['id'] = 'field_tr_requested_amount';
   $handler->display->display_options['fields']['field_tr_requested_amount']['table'] = 'field_data_field_tr_requested_amount';
@@ -1422,7 +1377,6 @@ function ulf_theater_refund_views_default_views() {
     t('Forestilling'),
     t('Antal'),
     t('Afviklingsdato'),
-    t('Skoleår'),
     t('Ansøgt beløb (inkl. moms)'),
     t('Ansøgt beløb (ekskl. moms)'),
     t('[field_tr_requested_amount_1-value] * 0.8'),
@@ -1444,6 +1398,7 @@ function ulf_theater_refund_views_default_views() {
     t('Ansøgt beløb'),
     t('Udbetalingsdato'),
     t('Indsendelsesdato'),
+    t('Skoleår'),
     t('Alle'),
   );
   $export['ulf_theater_refunds'] = $view;
