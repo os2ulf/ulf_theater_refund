@@ -616,7 +616,7 @@ function ulf_theater_refund_field_default_field_instances() {
     'bundle' => 'theater_refund',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Skriv antal billetter eller forestillinger.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -1070,6 +1070,7 @@ Mail sendes dog kun hvis status er godkendt eller afvist.');
   t('Sendte mails');
   t('Senest ændret af');
   t('Skole');
+  t('Skriv antal billetter eller forestillinger.');
   t('Skriv forestillingens totale pris i hele tal inkl. moms - eks. \'8000\'.');
   t('Skriv hvilken klasse, der skal se forestillingen.');
   t('Statstilskud');

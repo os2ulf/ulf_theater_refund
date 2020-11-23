@@ -170,6 +170,11 @@ function ulf_theater_refund_block_view($delta = '') {
     }
 
     $uid = arg(5);
+
+    if($uid == NULL) {
+      $uid = arg(3);
+    }
+    
     if ($uid && is_numeric($uid) && $uid > 0) {
       $query->condition('e.uid', $uid);
     }
@@ -209,7 +214,10 @@ function ulf_theater_refund_block_view($delta = '') {
 
     }
 
-    $year = $params['field_tr_date_value_3']['value']['year'] ?? date("Y");
+    $year = date("Y");
+    $year = $params['field_tr_date_value_3']['value']['year'] ?? $year;
+    $year = $params['year'] ?? $year;
+
     $granted_amount = _tr_get_spent_budget($uid, $year);
     $allocatedBudget = _tr_get_allocated_budget($uid, $year);
 
@@ -274,9 +282,11 @@ function ulf_theater_refund_views_pre_render(&$view) {
 function ulf_theater_refund_entityform_access_alter(&$access, $op, $context) {
   $account = $context['account'];
   $entityform = $context['entityform'];
+
   if ($entityform->type === 'theater_refund' && !$access && $op == 'edit' && isset($entityform->uid) && $account->uid == $entityform->uid) {
     $status = $entityform->field_tr_status[LANGUAGE_NONE][0]['value'] ?? NULL;
-    if ($status == 'awaiting_payment') {
+    if ($status == 'awaiting') {
+
       $access = TRUE;
     }
   }
@@ -325,6 +335,10 @@ function ulf_theater_refund_theme_registry_alter(&$theme_registry) {
 function ulf_theater_refund_entity_postinsert($entity, $entity_type) {
   if ($entity_type == 'entityform') {
     if ($entity->type == 'theater_refund') {
+      // Set author to choice of school.
+      $entity->uid = $entity->field_tr_school['und'][0]['target_id'];
+      entityform_save($entity);
+
       $wrapper = entity_metadata_wrapper($entity_type, $entity);
       _tr_notify($wrapper, 'on_submit_user');
       _tr_notify($wrapper, 'on_submit_admin');
@@ -341,6 +355,7 @@ function ulf_theater_refund_entity_postinsert($entity, $entity_type) {
  */
 function ulf_theater_refund_entity_postupdate($entity, $entity_type) {
   // Ensure we are submitting an entityform from form view.
+  error_log(arg(2));
   if ($entity_type == 'entityform' && arg(2) == 'edit') {
     if ($entity->type == 'theater_refund') {
       // Set author to choice of school.
@@ -382,4 +397,30 @@ function ulf_theater_refund_menu_local_tasks_alter(&$data, $router_item, $root_p
       $data['tabs'][0]['count'] = 0;
     }
   }
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ *
+ * @return false|string
+ */
+function ajax_check_government_subsidy($form, $form_state) {
+  $provider_id = $form_state['values']['field_tr_provider_name'][LANGUAGE_NONE][0]['tid'];
+  $db_result = db_select('field_data_field_government_subsidy','g')
+    ->fields('g', ['field_government_subsidy_value'])
+    ->condition('entity_id', $provider_id)
+    ->condition('field_government_subsidy_value', 1)
+    ->execute()->fetchField();
+
+  $result = array('#type' => 'ajax');
+
+  $output = '<div class="tr-warning-message"></div>';
+
+  if ($db_result == 1) {
+    $output = '<div class="tr-warning-message">OBS! Dette teater modtager i forvejen statstilskud, og vi kan derfor ikke søge statsrefusion til forestillingen. Det betyder, at I anvender dobbelt kommunal støtte på forestillingen.</div>';
+  }
+
+  $result['#commands'][] = ajax_command_replace('.field-name-field-tr-provider-name .tr-warning-message', $output);
+  return $result;
 }
