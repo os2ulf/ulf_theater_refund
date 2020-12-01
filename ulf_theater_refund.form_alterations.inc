@@ -488,18 +488,12 @@ function _tr_request_form_submit_handle_course($form, &$form_state) {
  * @param $form_state
  */
 function _tr_request_form_submit_handle_status_change($form, &$form_state) {
-  if ($form['#entity']->wrapper()->field_tr_status->value()
-    != 'ready_for_payment'
-    && $form_state['values']['field_tr_status'][LANGUAGE_NONE][0]['value']
-    == 'ready_for_payment'
+  if ($form['#entity']->wrapper()->field_tr_status->value() != 'ready_for_payment' && $form_state['values']['field_tr_status'][LANGUAGE_NONE][0]['value'] == 'ready_for_payment'
   ) {
     //if status is being changed to "ready_for_payment" set payment date
     form_set_value($form['field_tr_payment_date'], [LANGUAGE_NONE => [['value' => NULL]]], $form_state);
   }
-  if ($form['#entity']->wrapper()->field_tr_status->value()
-    != 'payment_completed'
-    && $form_state['values']['field_tr_status'][LANGUAGE_NONE][0]['value']
-    == 'payment_completed'
+  if ($form['#entity']->wrapper()->field_tr_status->value() != 'payment_completed' && $form_state['values']['field_tr_status'][LANGUAGE_NONE][0]['value'] == 'payment_completed'
   ) {
     //if status is being changed to "payment_completed" set payment date
     form_set_value($form['field_tr_payment_date'], [LANGUAGE_NONE => [['value' => time()]]], $form_state);

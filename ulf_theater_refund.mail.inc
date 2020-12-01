@@ -246,7 +246,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $school_wrapper = entity_metadata_wrapper('user', $school_id);
 
   // Provider wrapper
-  $provider_id = $wrapper->field_tr_provider->value();
+  $provider_id = $wrapper->field_tr_provider_name->value();
   $provider_wrapper = entity_metadata_wrapper('user', $provider_id);
 
 
@@ -308,9 +308,10 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= '</p>';
 
   $application .= '<p>';
+  $application .= '<strong>';
   $application .= t('Theater', array(), $translation_lang);
   $application .= ':</strong> ';
-  $application .= $wrapper->field_tr_provider_name->value();
+  $application .= $provider_wrapper->label();
   $application .= '<br/>';
   $application .= '<strong>';
   $application .= t('Show', array(), $translation_lang);
