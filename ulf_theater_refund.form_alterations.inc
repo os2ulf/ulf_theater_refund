@@ -21,7 +21,7 @@ function ulf_theater_refund_form_user_profile_form_alter(&$form, $form_state) {
 
     // But show name.
     $form['field_profile_name']['#access'] = TRUE;
-    $form['field_allocated_budget']['#access'] = TRUE;
+    $form['field_allocated_budget']['#access'] = FALSE;
     $form['#validate'][] = '_tr_user_profile_form_validate';
   }
 }
