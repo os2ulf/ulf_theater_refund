@@ -272,6 +272,11 @@ function ulf_theater_refund_views_pre_render(&$view) {
         $amount_withour_vat = ($value->field_field_tr_requested_amount_1[0]['raw']['value'] * 0.8);
         $value->field_field_tr_requested_amount_1[0]['rendered']['#markup'] =  number_format($amount_withour_vat, 2, ',', '');
       }
+
+      if (isset($value->field_field_government_subsidy)) {
+        $subsidy_value = $value->field_field_government_subsidy[0]['raw']['value'];
+        $value->field_field_government_subsidy[0]['rendered']['#markup'] = $subsidy_value == 1 ? t('Yes') : t('No');
+      }
     }
   }
 }
