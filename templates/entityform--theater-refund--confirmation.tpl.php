@@ -40,11 +40,11 @@
     </h2>
   <?php endif; ?>
 
-  <div class="fcr-content fcr-receipt"<?php print $content_attributes; ?>>
-    <?php print variable_get('ufcr_receipt', array('value' => '', 'format' => NULL))['value']?>
+  <div class="tr-content tr-receipt"<?php print $content_attributes; ?>>
+    <?php print variable_get('tr_receipt', array('value' => '', 'format' => NULL))['value']?>
   </div>
 
-  <div class="content fcr-receipt"<?php print $content_attributes; ?>>
+  <div class="content tr-receipt"<?php print $content_attributes; ?>>
     <div class="content--main block--field-text">
       <h2><?php print t('School'); ?></h2>
       <div><?php print render($content['field_tr_school']); ?></div>
