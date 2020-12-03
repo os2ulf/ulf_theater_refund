@@ -9,6 +9,9 @@
  * Implements hook_form_FORMID_alter().
  */
 function ulf_theater_refund_form_user_profile_form_alter(&$form, $form_state) {
+  global $user;
+
+
   // If on a 'teaterkontaktlærer' profile.
   if (in_array('teaterkontakt', $form['#user']->roles)) {
     $form['picture']['#access'] = FALSE;
@@ -19,9 +22,12 @@ function ulf_theater_refund_form_user_profile_form_alter(&$form, $form_state) {
       }
     }
 
+    if (in_array('editor', $user->roles)) {
+      $form['field_allocated_budget']['#access'] = TRUE;
+    }
+
     // But show name.
     $form['field_profile_name']['#access'] = TRUE;
-    $form['field_allocated_budget']['#access'] = FALSE;
     $form['#validate'][] = '_tr_user_profile_form_validate';
   }
 }
