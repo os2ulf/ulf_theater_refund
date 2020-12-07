@@ -52,31 +52,24 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['style_options']['columns'] = array(
     'views_bulk_operations' => 'views_bulk_operations',
     'entityform_id' => 'entityform_id',
-    'field_tr_school' => 'field_tr_school',
+    'name' => 'name',
     'field_tr_grade' => 'field_tr_grade',
     'field_tr_name' => 'field_tr_name',
     'field_tr_provider_name' => 'field_tr_provider_name',
-    'field_tr_provider' => 'field_tr_provider',
     'field_tr_new_course_name' => 'field_tr_new_course_name',
-    'field_tr_course_name' => 'field_tr_course_name',
-    'field_tr_course' => 'field_tr_course',
-    'field_tr_subject' => 'field_tr_subject',
+    'field_tr_quantity' => 'field_tr_quantity',
     'field_tr_date' => 'field_tr_date',
-    'field_tr_date_1' => 'field_tr_date_1',
     'field_tr_requested_amount' => 'field_tr_requested_amount',
+    'field_tr_requested_amount_1' => 'field_tr_requested_amount_1',
     'field_tr_status' => 'field_tr_status',
     'field_tr_granted_amount' => 'field_tr_granted_amount',
     'field_tr_spent_amount' => 'field_tr_spent_amount',
-    'field_tr_attachment' => 'field_tr_attachment',
-    'field_tr_payment_date' => 'field_tr_payment_date',
     'field_tr_remarks' => 'field_tr_remarks',
     'field_tr_latest_editor' => 'field_tr_latest_editor',
     'field_tr_mails_sent' => 'field_tr_mails_sent',
     'edit_entityform' => 'edit_entityform',
     'field_profile_name' => 'field_profile_name',
     'field_profile_name_1' => 'field_profile_name_1',
-    'title' => 'title',
-    'field_tr_course_not_found' => 'field_tr_course_not_found',
   );
   $handler->display->display_options['style_options']['class'] = '';
   $handler->display->display_options['style_options']['default'] = 'entityform_id';
@@ -93,8 +86,8 @@ function ulf_theater_refund_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_tr_school' => array(
-      'sortable' => 0,
+    'name' => array(
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
@@ -115,13 +108,6 @@ function ulf_theater_refund_views_default_views() {
       'empty_column' => 0,
     ),
     'field_tr_provider_name' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_tr_provider' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -135,21 +121,7 @@ function ulf_theater_refund_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_tr_course_name' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_tr_course' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_tr_subject' => array(
+    'field_tr_quantity' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -163,14 +135,14 @@ function ulf_theater_refund_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_tr_date_1' => array(
+    'field_tr_requested_amount' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_tr_requested_amount' => array(
+    'field_tr_requested_amount_1' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -192,20 +164,6 @@ function ulf_theater_refund_views_default_views() {
       'empty_column' => 0,
     ),
     'field_tr_spent_amount' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_tr_attachment' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_tr_payment_date' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -244,20 +202,6 @@ function ulf_theater_refund_views_default_views() {
       'empty_column' => 0,
     ),
     'field_profile_name_1' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'title' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_tr_course_not_found' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -360,12 +304,11 @@ function ulf_theater_refund_views_default_views() {
     'entityform_id' => 'entityform_id',
     'field_tr_school' => 'field_tr_school',
     'field_tr_name' => 'field_tr_name',
-    'field_tr_provider' => 'field_tr_provider',
     'field_tr_new_course_name' => 'field_tr_new_course_name',
-    'field_tr_course' => 'field_tr_course',
     'field_profile_name' => 'field_profile_name',
     'field_profile_name_1' => 'field_profile_name_1',
-    'title' => 'title',
+    'nothing' => 'nothing',
+    'name' => 'name',
   );
   /* Filterkriterie: Entityform Submission: Entityform Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -453,6 +396,11 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['relationships']['field_tr_school_target_id']['id'] = 'field_tr_school_target_id';
   $handler->display->display_options['relationships']['field_tr_school_target_id']['table'] = 'field_data_field_tr_school';
   $handler->display->display_options['relationships']['field_tr_school_target_id']['field'] = 'field_tr_school_target_id';
+  /* Forbindelse: Entityform Submission: Teater (field_tr_provider_name) */
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['id'] = 'field_tr_provider_name_tid';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['table'] = 'field_data_field_tr_provider_name';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['field'] = 'field_tr_provider_name_tid';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['label'] = 'Teater';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Felt: Masse-handlinger: Entityform Submission */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
@@ -548,14 +496,13 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['entityform_id']['field'] = 'entityform_id';
   $handler->display->display_options['fields']['entityform_id']['label'] = 'ID';
   $handler->display->display_options['fields']['entityform_id']['separator'] = '';
-  /* Felt: Entityform Submission: Skole */
-  $handler->display->display_options['fields']['field_tr_school']['id'] = 'field_tr_school';
-  $handler->display->display_options['fields']['field_tr_school']['table'] = 'field_data_field_tr_school';
-  $handler->display->display_options['fields']['field_tr_school']['field'] = 'field_tr_school';
-  $handler->display->display_options['fields']['field_tr_school']['settings'] = array(
-    'bypass_access' => 0,
-    'link' => 0,
-  );
+  /* Felt: Bruger: Navn */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'field_tr_school_target_id';
+  $handler->display->display_options['fields']['name']['label'] = 'Skole';
+  $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
   /* Felt: Entityform Submission: Klasse */
   $handler->display->display_options['fields']['field_tr_grade']['id'] = 'field_tr_grade';
   $handler->display->display_options['fields']['field_tr_grade']['table'] = 'field_data_field_tr_grade';
@@ -568,12 +515,16 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_provider_name']['id'] = 'field_tr_provider_name';
   $handler->display->display_options['fields']['field_tr_provider_name']['table'] = 'field_data_field_tr_provider_name';
   $handler->display->display_options['fields']['field_tr_provider_name']['field'] = 'field_tr_provider_name';
-  $handler->display->display_options['fields']['field_tr_provider_name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_tr_provider_name']['type'] = 'taxonomy_term_reference_plain';
   /* Felt: Entityform Submission: Forestilling */
   $handler->display->display_options['fields']['field_tr_new_course_name']['id'] = 'field_tr_new_course_name';
   $handler->display->display_options['fields']['field_tr_new_course_name']['table'] = 'field_data_field_tr_new_course_name';
   $handler->display->display_options['fields']['field_tr_new_course_name']['field'] = 'field_tr_new_course_name';
-  $handler->display->display_options['fields']['field_tr_new_course_name']['exclude'] = TRUE;
+  /* Felt: Ord i ordforråd: Statstilskud */
+  $handler->display->display_options['fields']['field_government_subsidy']['id'] = 'field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['table'] = 'field_data_field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['field'] = 'field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['relationship'] = 'field_tr_provider_name_tid';
   /* Felt: Entityform Submission: Antal */
   $handler->display->display_options['fields']['field_tr_quantity']['id'] = 'field_tr_quantity';
   $handler->display->display_options['fields']['field_tr_quantity']['table'] = 'field_data_field_tr_quantity';
@@ -668,18 +619,18 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['edit_entityform']['field'] = 'edit_entityform';
   $handler->display->display_options['fields']['edit_entityform']['label'] = '';
   $handler->display->display_options['fields']['edit_entityform']['element_label_colon'] = FALSE;
-  /* Felt: User: Navn */
+  /* Felt: Bruger: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['relationship'] = 'field_tr_school_target_id';
   $handler->display->display_options['fields']['field_profile_name']['label'] = 'Skole';
   $handler->display->display_options['fields']['field_profile_name']['exclude'] = TRUE;
-  /* Felt: User: Navn */
+  /* Felt: Bruger: Navn */
   $handler->display->display_options['fields']['field_profile_name_1']['id'] = 'field_profile_name_1';
   $handler->display->display_options['fields']['field_profile_name_1']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name_1']['field'] = 'field_profile_name';
-  $handler->display->display_options['fields']['field_profile_name_1']['relationship'] = 'field_tr_provider_target_id';
+  $handler->display->display_options['fields']['field_profile_name_1']['relationship'] = 'field_tr_school_target_id';
   $handler->display->display_options['fields']['field_profile_name_1']['label'] = 'Udbyder';
   $handler->display->display_options['fields']['field_profile_name_1']['exclude'] = TRUE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
@@ -706,6 +657,11 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['relationships']['user']['table'] = 'entityform';
   $handler->display->display_options['relationships']['user']['field'] = 'user';
   $handler->display->display_options['relationships']['user']['label'] = 'forfatter';
+  /* Forbindelse: Entityform Submission: Teater (field_tr_provider_name) */
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['id'] = 'field_tr_provider_name_tid';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['table'] = 'field_data_field_tr_provider_name';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['field'] = 'field_tr_provider_name_tid';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['label'] = 'Teater';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Felt: Entityform Submission: Entityform submission ID */
   $handler->display->display_options['fields']['entityform_id']['id'] = 'entityform_id';
@@ -717,7 +673,7 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_name']['id'] = 'field_tr_name';
   $handler->display->display_options['fields']['field_tr_name']['table'] = 'field_data_field_tr_name';
   $handler->display->display_options['fields']['field_tr_name']['field'] = 'field_tr_name';
-  /* Felt: User: CVR */
+  /* Felt: Bruger: CVR */
   $handler->display->display_options['fields']['field_profile_cvr']['id'] = 'field_profile_cvr';
   $handler->display->display_options['fields']['field_profile_cvr']['table'] = 'field_data_field_profile_cvr';
   $handler->display->display_options['fields']['field_profile_cvr']['field'] = 'field_profile_cvr';
@@ -730,11 +686,24 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_grade']['id'] = 'field_tr_grade';
   $handler->display->display_options['fields']['field_tr_grade']['table'] = 'field_data_field_tr_grade';
   $handler->display->display_options['fields']['field_tr_grade']['field'] = 'field_tr_grade';
+  /* Felt: Entityform Submission: Teater */
+  $handler->display->display_options['fields']['field_tr_provider_name']['id'] = 'field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['table'] = 'field_data_field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['field'] = 'field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['type'] = 'taxonomy_term_reference_plain';
   /* Felt: Entityform Submission: Forestilling */
   $handler->display->display_options['fields']['field_tr_new_course_name']['id'] = 'field_tr_new_course_name';
   $handler->display->display_options['fields']['field_tr_new_course_name']['table'] = 'field_data_field_tr_new_course_name';
   $handler->display->display_options['fields']['field_tr_new_course_name']['field'] = 'field_tr_new_course_name';
-  $handler->display->display_options['fields']['field_tr_new_course_name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_tr_new_course_name']['type'] = 'text_plain';
+  $handler->display->display_options['fields']['field_tr_new_course_name']['settings'] = array(
+    'trim_length' => '600',
+  );
+  /* Felt: Ord i ordforråd: Statstilskud */
+  $handler->display->display_options['fields']['field_government_subsidy']['id'] = 'field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['table'] = 'field_data_field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['field'] = 'field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['relationship'] = 'field_tr_provider_name_tid';
   /* Felt: Entityform Submission: Afviklingsdato */
   $handler->display->display_options['fields']['field_tr_date']['id'] = 'field_tr_date';
   $handler->display->display_options['fields']['field_tr_date']['table'] = 'field_data_field_tr_date';
@@ -800,7 +769,7 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_remarks']['id'] = 'field_tr_remarks';
   $handler->display->display_options['fields']['field_tr_remarks']['table'] = 'field_data_field_tr_remarks';
   $handler->display->display_options['fields']['field_tr_remarks']['field'] = 'field_tr_remarks';
-  /* Felt: User: Navn */
+  /* Felt: Bruger: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
@@ -968,6 +937,11 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_phone']['id'] = 'field_tr_phone';
   $handler->display->display_options['fields']['field_tr_phone']['table'] = 'field_data_field_tr_phone';
   $handler->display->display_options['fields']['field_tr_phone']['field'] = 'field_tr_phone';
+  /* Felt: Entityform Submission: Teater */
+  $handler->display->display_options['fields']['field_tr_provider_name']['id'] = 'field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['table'] = 'field_data_field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['field'] = 'field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['type'] = 'taxonomy_term_reference_plain';
   /* Felt: Entityform Submission: Forestilling */
   $handler->display->display_options['fields']['field_tr_new_course_name']['id'] = 'field_tr_new_course_name';
   $handler->display->display_options['fields']['field_tr_new_course_name']['table'] = 'field_data_field_tr_new_course_name';
@@ -1084,6 +1058,11 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['relationships']['field_tr_school_target_id']['id'] = 'field_tr_school_target_id';
   $handler->display->display_options['relationships']['field_tr_school_target_id']['table'] = 'field_data_field_tr_school';
   $handler->display->display_options['relationships']['field_tr_school_target_id']['field'] = 'field_tr_school_target_id';
+  /* Forbindelse: Entityform Submission: Teater (field_tr_provider_name) */
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['id'] = 'field_tr_provider_name_tid';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['table'] = 'field_data_field_tr_provider_name';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['field'] = 'field_tr_provider_name_tid';
+  $handler->display->display_options['relationships']['field_tr_provider_name_tid']['label'] = 'Teater';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Felt: Masse-handlinger: Entityform Submission */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
@@ -1199,12 +1178,17 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_provider_name']['id'] = 'field_tr_provider_name';
   $handler->display->display_options['fields']['field_tr_provider_name']['table'] = 'field_data_field_tr_provider_name';
   $handler->display->display_options['fields']['field_tr_provider_name']['field'] = 'field_tr_provider_name';
-  $handler->display->display_options['fields']['field_tr_provider_name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_tr_provider_name']['type'] = 'taxonomy_term_reference_plain';
   /* Felt: Entityform Submission: Forestilling */
   $handler->display->display_options['fields']['field_tr_new_course_name']['id'] = 'field_tr_new_course_name';
   $handler->display->display_options['fields']['field_tr_new_course_name']['table'] = 'field_data_field_tr_new_course_name';
   $handler->display->display_options['fields']['field_tr_new_course_name']['field'] = 'field_tr_new_course_name';
-  $handler->display->display_options['fields']['field_tr_new_course_name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_tr_new_course_name']['type'] = 'text_plain';
+  /* Felt: Ord i ordforråd: Statstilskud */
+  $handler->display->display_options['fields']['field_government_subsidy']['id'] = 'field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['table'] = 'field_data_field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['field'] = 'field_government_subsidy';
+  $handler->display->display_options['fields']['field_government_subsidy']['relationship'] = 'field_tr_provider_name_tid';
   /* Felt: Entityform Submission: Antal */
   $handler->display->display_options['fields']['field_tr_quantity']['id'] = 'field_tr_quantity';
   $handler->display->display_options['fields']['field_tr_quantity']['table'] = 'field_data_field_tr_quantity';
@@ -1299,14 +1283,14 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['edit_entityform']['field'] = 'edit_entityform';
   $handler->display->display_options['fields']['edit_entityform']['label'] = '';
   $handler->display->display_options['fields']['edit_entityform']['element_label_colon'] = FALSE;
-  /* Felt: User: Navn */
+  /* Felt: Bruger: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['relationship'] = 'field_tr_school_target_id';
   $handler->display->display_options['fields']['field_profile_name']['label'] = 'Skole';
   $handler->display->display_options['fields']['field_profile_name']['exclude'] = TRUE;
-  /* Felt: User: Navn */
+  /* Felt: Bruger: Navn */
   $handler->display->display_options['fields']['field_profile_name_1']['id'] = 'field_profile_name_1';
   $handler->display->display_options['fields']['field_profile_name_1']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name_1']['field'] = 'field_profile_name';
@@ -1349,7 +1333,7 @@ function ulf_theater_refund_views_default_views() {
     t('‹ forrige'),
     t('næste ›'),
     t('sidste »'),
-    t('User entity refereret fra field_tr_school'),
+    t('Bruger entity refereret fra field_tr_school'),
     t('field_tr_provider_target_id'),
     t('field_tr_course_target_id'),
     t('forfatter'),
@@ -1368,13 +1352,14 @@ function ulf_theater_refund_views_default_views() {
     t('Afviklingsdato til'),
     t('År'),
     t('All applications'),
+    t('Teater'),
     t('ID'),
     t('.'),
     t('Skole'),
     t('Klasse'),
     t('Navn'),
-    t('Teater'),
     t('Forestilling'),
+    t('Statstilskud'),
     t('Antal'),
     t('Afviklingsdato'),
     t('Ansøgt beløb (inkl. moms)'),
@@ -1466,7 +1451,7 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'course' => 'course',
   );
-  /* Filterkriterie: Node: Overordnet målgruppe (field_target_group) */
+  /* Filterkriterie: Indhold: Overordnet målgruppe (field_target_group) */
   $handler->display->display_options['filters']['field_target_group_tid']['id'] = 'field_target_group_tid';
   $handler->display->display_options['filters']['field_target_group_tid']['table'] = 'field_data_field_target_group';
   $handler->display->display_options['filters']['field_target_group_tid']['field'] = 'field_target_group_tid';
@@ -1551,7 +1536,7 @@ function ulf_theater_refund_views_default_views() {
     ),
   );
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Felt: User: Navn */
+  /* Felt: Bruger: Navn */
   $handler->display->display_options['fields']['field_profile_name']['id'] = 'field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['table'] = 'field_data_field_profile_name';
   $handler->display->display_options['fields']['field_profile_name']['field'] = 'field_profile_name';

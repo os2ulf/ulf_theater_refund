@@ -28,8 +28,8 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
   switch ($action) {
     case 'on_submit_user':
       $params['subject'] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
-      $params['body'] = '<h2>' . t('Financing request received', array(), array('langcode' => $language->language)) . '</h2>';
-      $params['body'] .= variable_get('_tr_confirmation_email', array(
+      $params['body'] = '<h2>' . t('Theater refund request received', array(), array('langcode' => $language->language)) . '</h2>';
+      $params['body'] .= variable_get('tr_confirmation_email', array(
         'value' => '',
         'format' => NULL,
       ))['value'];
@@ -43,8 +43,8 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
 
     case 'on_submit_admin':
       $params['subject'] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
-      $params['body'] = '<h2>' . t('Financing request received', array(), array('langcode' => $language->language)) . '</h2>';
-      $params['body'] .= variable_get('_tr_notify_admin_email', array(
+      $params['body'] = '<h2>' . t('Theater refund request received', array(), array('langcode' => $language->language)) . '</h2>';
+      $params['body'] .= variable_get('tr_notify_admin_email', array(
         'value' => '',
         'format' => NULL,
       ))['value'];
@@ -55,8 +55,8 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
 
     case 'on_change_accepted':
       $params['subject'] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
-      $params['body'] = '<h2>' . t('Financing request accepted', array(), array('langcode' => $language->language)) . '</h2>';
-      $params['body'] .= variable_get('_tr_request_accepted_email', array(
+      $params['body'] = '<h2>' . t('Theater refund request accepted', array(), array('langcode' => $language->language)) . '</h2>';
+      $params['body'] .= variable_get('tr_request_accepted_email', array(
         'value' => '',
         'format' => NULL,
       ))['value'];
@@ -70,8 +70,8 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
 
     case 'on_change_refused':
       $params['subject'] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
-      $params['body'] = '<h2>' . t('Financing request refused', array(), array('langcode' => $language->language)) . '</h2>';
-      $params['body'] .= variable_get('_tr_request_refused_email', array(
+      $params['body'] = '<h2>' . t('Theater refund request refused', array(), array('langcode' => $language->language)) . '</h2>';
+      $params['body'] .= variable_get('tr_request_refused_email', array(
         'value' => '',
         'format' => NULL,
       ))['value'];
@@ -210,7 +210,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $application .= '<br/>';
 
   $application .= '<strong>'. t('Remaining budget', array(), $translation_lang) .'</strong>: ';
-  $application .= number_format(_tr_get_remaining_budget($uid, $year), 2, ',', '.') . ' kr.';
+  $application .= _tr_get_remaining_budget($uid, $year) . ' kr.';
   $application .= '</p>';
 
   return $application;
@@ -246,7 +246,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $school_wrapper = entity_metadata_wrapper('user', $school_id);
 
   // Provider wrapper
-  $provider_id = $wrapper->field_tr_provider->value();
+  $provider_id = $wrapper->field_tr_provider_name->value();
   $provider_wrapper = entity_metadata_wrapper('user', $provider_id);
 
 
@@ -308,9 +308,10 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= '</p>';
 
   $application .= '<p>';
+  $application .= '<strong>';
   $application .= t('Theater', array(), $translation_lang);
   $application .= ':</strong> ';
-  $application .= $wrapper->field_tr_provider_name->value();
+  $application .= $provider_wrapper->label();
   $application .= '<br/>';
   $application .= '<strong>';
   $application .= t('Show', array(), $translation_lang);

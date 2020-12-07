@@ -1,0 +1,8 @@
+msgid "Theater refund request received"
+msgstr "Teaterrefusion"
+
+msgid "Theater refund request accepted"
+msgstr "Teaterrefusion (godkendt)"
+
+msgid "Theater refund request refused"
+msgstr "Teaterrefusion (afvist)"
