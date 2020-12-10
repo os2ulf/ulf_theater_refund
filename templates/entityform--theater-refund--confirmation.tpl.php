@@ -55,9 +55,10 @@
     </div>
 
     <div class="content--main block--field-text">
-      <h2><?php print t('Course'); ?></h2>
-      <div><?php print render($content['field_tr_provider']); ?></div>
-      <div><?php print render($content['field_tr_course']); ?></div>
+      <h2><?php print t('Show', [], ['context' => 'theater_refund']); ?></h2>
+      <div><?php print render($content['field_tr_provider_name']); ?></div>
+      <div><?php print render($content['field_tr_new_course_name']); ?></div>
+      <div><?php print render($content['field_tr_quantity']); ?></div>
       <div><?php print render($content['field_tr_requested_amount']); ?></div>
       <div><?php print render($content['field_tr_date']); ?></div>
     </div>
