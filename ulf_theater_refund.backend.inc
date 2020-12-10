@@ -189,6 +189,7 @@ function ulf_theater_refund_teachers_overview() {
     'Allocated budget',
     'Spent budget',
     'Remaining budget',
+    'Additional allocation',
     'Actions',
   ];
 
@@ -202,6 +203,7 @@ function ulf_theater_refund_teachers_overview() {
       $user->budget,
       $spent_budget,
       $remaining_budget < 0 ? 0 : $remaining_budget,
+      $spent_budget - $user->budget,
       l(t('Edit'), 'user/' . $user->uid . '/edit', ['query' => [drupal_get_destination()]])
     ];
   }

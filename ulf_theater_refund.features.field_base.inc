@@ -602,10 +602,9 @@ function ulf_theater_refund_field_default_field_bases() {
     'settings' => array(
       'allowed_values' => array(
         'awaiting' => 'Afventer',
+        'beging processed' => 'Under behandling',
         'accepted' => 'Godkendt',
-        'awaiting_payment' => 'Afventer udbetaling',
-        'ready_for_payment' => 'Klar til udbetaling',
-        'payment_completed' => 'Udbetalt',
+        'payment_completed' => 'Betalt',
         'refused' => 'Afvist',
         'cancelled' => 'Annulleret',
         'closed' => 'Lukket',
