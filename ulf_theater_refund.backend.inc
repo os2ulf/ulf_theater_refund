@@ -203,7 +203,7 @@ function ulf_theater_refund_teachers_overview() {
       $user->budget,
       $spent_budget,
       $remaining_budget < 0 ? 0 : $remaining_budget,
-      $spent_budget - $user->budget,
+      $remaining_budget <= 0 ? $spent_budget - $user->budget: 0,
       l(t('Edit'), 'user/' . $user->uid . '/edit', ['query' => [drupal_get_destination()]])
     ];
   }
