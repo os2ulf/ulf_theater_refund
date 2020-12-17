@@ -180,7 +180,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $application .= $provider_wrapper->label();
   $application .= '<br/>';
   $application .= '<strong>';
-  $application .= t('Show', array(), $translation_lang);
+  $application .= t('Show', array(), array('langcode' => $language->language, 'context' => 'theater_refund'));
   $application .= ':</strong> ';
   $application .= $wrapper->field_tr_new_course_name->value();
   $application .= '<br/>';
@@ -314,7 +314,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= $provider_wrapper->label();
   $application .= '<br/>';
   $application .= '<strong>';
-  $application .= t('Show', array(), $translation_lang);
+  $application .= t('Show', array(), array('langcode' => $language->language, 'context' => 'theater_refund'));
   $application .= ':</strong> ';
   $application .= $wrapper->field_tr_new_course_name->value();
   $application .= '<br/>';

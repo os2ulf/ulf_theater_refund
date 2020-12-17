@@ -11,7 +11,6 @@
 function ulf_theater_refund_form_user_profile_form_alter(&$form, $form_state) {
   global $user;
 
-
   // If on a 'teaterkontaktlærer' profile.
   if (in_array('teaterkontakt', $form['#user']->roles)) {
     $form['picture']['#access'] = FALSE;
@@ -29,6 +28,7 @@ function ulf_theater_refund_form_user_profile_form_alter(&$form, $form_state) {
     // But show name.
     $form['field_profile_name']['#access'] = TRUE;
     $form['#validate'][] = '_tr_user_profile_form_validate';
+    $form['pretix_user_manual']['#access'] = user_access('administer ulf pretix user settings');
   }
 }
 
@@ -71,7 +71,6 @@ function ulf_theater_refund_form_theater_refund_entityform_edit_form_alter(&$for
   // Always hide mails sent field. Set in code, and only used for display.
   $form['field_tr_mails_sent']['#access'] = FALSE;
   $form['field_tr_latest_editor']['#access'] = FALSE;
-
 
   if (!empty($form['field_tr_requested_amount'][LANGUAGE_NONE][0]['value']['#default_value']) && user_access('administer ulf theater refund settings', $user)) {
     $form['field_tr_granted_amount'][LANGUAGE_NONE]['0']['#suffix'] = t('Requested amount ex. vat: <strong>!amount</strong>', ['!amount' => number_format(((int) $form['field_tr_requested_amount'][LANGUAGE_NONE][0]['value']['#default_value'] * 0.8), 2, ',', '.')]);
