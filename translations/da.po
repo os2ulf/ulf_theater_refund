@@ -6,3 +6,18 @@ msgstr "Teaterrefusion (godkendt)"
 
 msgid "Theater refund request refused"
 msgstr "Teaterrefusion (afvist)"
+
+msgid "Theater reimbursement"
+msgstr "Teaterrefusion"
+
+msgid "Your application"
+msgstr "Din ansøgning"
+
+msgid "Grant on reimbursement"
+msgstr "Bevilling af teaterrefusion"
+
+msgid "Refusal of reimbursement"
+msgstr "Afslag på teaterrefusion"
+
+msgid "Budget and spending for :year to date:"
+msgstr "Budget og forbrug for :year år til dato:"

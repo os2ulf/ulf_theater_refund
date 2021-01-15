@@ -21,14 +21,12 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
 
   global $language;
 
-
   // Set fallback email
   $to = variable_get('site_mail');
   $params = array();
   switch ($action) {
     case 'on_submit_user':
-      $params['subject'] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
-      $params['body'] = '<h2>' . t('Theater refund request received', array(), array('langcode' => $language->language)) . '</h2>';
+      $params['subject'] = t('Theater reimbursement', array(), array('langcode' => $language->language)) . ' ' . $year;
       $params['body'] .= variable_get('tr_confirmation_email', array(
         'value' => '',
         'format' => NULL,
@@ -36,14 +34,13 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
       $params['body'] .= _tr_build_mail_confirmation($wrapper);
 
       // Log what mail was sent.
-      $wrapper->field_tr_mails_sent[] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
+      $wrapper->field_tr_mails_sent[] =t('Theater reimbursement', array(), array('langcode' => $language->language)) . ' ' . $year;
       $wrapper->save();
       $to = $wrapper->field_tr_mail->value();
       break;
 
     case 'on_submit_admin':
-      $params['subject'] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
-      $params['body'] = '<h2>' . t('Theater refund request received', array(), array('langcode' => $language->language)) . '</h2>';
+      $params['subject'] = t('Theater reimbursement', array(), array('langcode' => $language->language)) . ' ' . $year;
       $params['body'] .= variable_get('tr_notify_admin_email', array(
         'value' => '',
         'format' => NULL,
@@ -54,8 +51,7 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
       break;
 
     case 'on_change_accepted':
-      $params['subject'] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
-      $params['body'] = '<h2>' . t('Theater refund request accepted', array(), array('langcode' => $language->language)) . '</h2>';
+      $params['subject'] = t('Grant on reimbursement', array(), array('langcode' => $language->language)) . ' ' . $year;
       $params['body'] .= variable_get('tr_request_accepted_email', array(
         'value' => '',
         'format' => NULL,
@@ -69,21 +65,20 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
       break;
 
     case 'on_change_refused':
-      $params['subject'] = t('Status of theater reimbursement after this grant for :year', array(':year' => $year), array('langcode' => $language->language));
-      $params['body'] = '<h2>' . t('Theater refund request refused', array(), array('langcode' => $language->language)) . '</h2>';
+      $params['subject'] = t('Refusal of reimbursement', array(), array('langcode' => $language->language)) . ' ' . $year;
       $params['body'] .= variable_get('tr_request_refused_email', array(
         'value' => '',
         'format' => NULL,
       ))['value'];
       $params['body'] .= _tr_build_mail_followup($wrapper);
 
-      $wrapper->field_tr_mails_sent[] = t('Theater refund refused', array(), array('langcode' => $language->language));
+      $wrapper->field_tr_mails_sent[] = t('Theater refund refused', array(), array('langcode' => $language->language)) . ' ' . $year;
       $wrapper->save();
       $to = $wrapper->field_tr_mail->value();
       break;
   }
 
-  drupal_mail('ulf_theater_refund', 'tr_notification', $to, $language->language, $params);
+  drupal_mail('ulf_theater_refund', 'tr_notification', $to, $language->language, $params, 'Børnekulturhuset <info@ulfiaarhus.dk>');
 }
 
 /**
@@ -119,7 +114,8 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
 
   $application = '';
   $entity_form_id = $wrapper->entityform_id->value();
-  $year = date('Y');
+  $year = (int) date('Y');
+  $uid = $wrapper->uid->value();
 
   if (empty($entity_form_id )) {
     return $application;
@@ -137,7 +133,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $provider_wrapper = entity_metadata_wrapper('taxonomy_term', $provider_id);
 
   $application .= '<h3>';
-  $application .= t('Status of theater reimbursement after this grant for :year', array(':year' => $year), $translation_lang);
+  $application .= t('Your application', array(), $translation_lang);
   $application .= ':</h3>';
 
   $application .= '<strong>';
@@ -200,6 +196,10 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $application .= date('d/m/Y', $wrapper->field_tr_date->value());
   $application .= '<br/>';
   $application .= '<br/>';
+
+  $application .= '<h3>';
+  $application .= t('Budget and spending for :year to date:', array(':year' => $year), $translation_lang);
+  $application .= ':</h3>';
 
   $application .= '<strong>'. t('Allocated budget', array(), $translation_lang) .'</strong>: ';
   $application .= number_format(_tr_get_allocated_budget($uid, $year), 2, ',', '.') . ' kr.';
@@ -331,6 +331,10 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= '<strong>';
   $application .= t('Date', array(), $translation_lang);
   $application .= ':</strong> ';
+
+  $application .= '<h3>';
+  $application .= t('Budget and spending for :year to date:', array(':year' => $year), $translation_lang);
+  $application .= ':</h3>';
 
   $application .= '<strong>'. t('Allocated budget', array(), $translation_lang) .'</strong>: ';
   $application .= _tr_get_allocated_budget($uid, $year);

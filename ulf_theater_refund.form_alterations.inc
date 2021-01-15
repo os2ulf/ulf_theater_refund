@@ -101,7 +101,6 @@ function ulf_theater_refund_form_theater_refund_entityform_edit_form_alter(&$for
     array_unshift($form['actions']['save']['#submit'], '_tr_request_form_submit_handle_status_change');
   }
 
-
   if (in_array('editor', $user->roles) && isset($entity->entityform_id)) {
     //felter skjules aldrig for redaktører
     unset($form['actions']['captcha']);
@@ -467,8 +466,6 @@ function _tr_request_form_submit($form, &$form_state) {
   // Add 3 hours to date timestamp to ensure correct date (Timezones and summertime)
   // We don't care about the exact time.
   $form_state['values']['field_tr_date'][LANGUAGE_NONE][0]['value'] = $form_state['values']['field_tr_date'][LANGUAGE_NONE][0]['value'] + 10800;
-
-
 }
 
 /**
