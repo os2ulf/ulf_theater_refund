@@ -185,12 +185,12 @@ function ulf_theater_refund_teachers_overview() {
   $result = $query->execute();
 
   $headers = [
-    'Name',
-    'Allocated budget',
-    'Spent budget',
-    'Remaining budget',
-    'Additional allocation',
-    'Actions',
+    t('Name'),
+    t('Allocated budget'),
+    t('Spent budget'),
+    t('Remaining budget'),
+    t('Additional allocation'),
+    t('Actions'),
   ];
 
   $rows = [];
