@@ -114,7 +114,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
 
   $application = '';
   $entity_form_id = $wrapper->entityform_id->value();
-  $year = (int) date('Y');
+  $year = date('Y', $wrapper->field_tr_date->value());
   $uid = $wrapper->uid->value();
 
   if (empty($entity_form_id )) {
@@ -199,7 +199,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
 
   $application .= '<h3>';
   $application .= t('Budget and spending for :year to date:', array(':year' => $year), $translation_lang);
-  $application .= ':</h3>';
+  $application .= '</h3>';
 
   $application .= '<strong>'. t('Allocated budget', array(), $translation_lang) .'</strong>: ';
   $application .= number_format(_tr_get_allocated_budget($uid, $year), 2, ',', '.') . ' kr.';
@@ -210,7 +210,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $application .= '<br/>';
 
   $application .= '<strong>'. t('Remaining budget', array(), $translation_lang) .'</strong>: ';
-  $application .= _tr_get_remaining_budget($uid, $year) . ' kr.';
+  $application .= number_format(_tr_get_remaining_budget($uid, $year), 2, ',', '.') . ' kr.';
   $application .= '</p>';
 
   return $application;
@@ -229,7 +229,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application = '';
   $entity_form_id = $wrapper->entityform_id->value();
   $uid = $wrapper->uid->value();
-  $year = date('Y');
+  $year = date('Y', $wrapper->field_tr_date->value());
 
   if (empty($entity_form_id )) {
     return $application;
@@ -251,7 +251,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
 
 
   $application .= '<h3>';
-  $application .= t('Status of theater reimbursement after this grant for :year', array(':year' => $year), $translation_lang);
+  $application .= t('Your application', array(), $translation_lang);
   $application .= ':</h3>';
 
   $application .= '<p>';
@@ -321,7 +321,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= '<strong>';
   $application .= t('Quantity', array(), $translation_lang);
   $application .= ':</strong> ';
-  $application .= $wrapper->field_tr_quantity->value() . ' kr.';
+  $application .= $wrapper->field_tr_quantity->value();
   $application .= '<br/>';
   $application .= '<strong>';
   $application .= t('Requested amount', array(), $translation_lang);
@@ -331,22 +331,26 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= '<strong>';
   $application .= t('Date', array(), $translation_lang);
   $application .= ':</strong> ';
+  $application .= date('d/m/Y', $wrapper->field_tr_date->value());
+  $application .= '<br/>';
+  $application .= '<br/>';
 
   $application .= '<h3>';
   $application .= t('Budget and spending for :year to date:', array(':year' => $year), $translation_lang);
-  $application .= ':</h3>';
+  $application .= '</h3>';
 
   $application .= '<strong>'. t('Allocated budget', array(), $translation_lang) .'</strong>: ';
-  $application .= _tr_get_allocated_budget($uid, $year);
+  $application .= number_format(_tr_get_allocated_budget($uid, $year), 2, ',', '.') . ' kr.';
   $application .= '<br/>';
 
   $application .= '<strong>'. t('Spent budget', array(), $translation_lang) .'</strong>: ';
-  $application .= _tr_get_spent_budget($uid, $year);
+  $application .= number_format(_tr_get_spent_budget($uid, $year), 2, ',', '.') . ' kr.';
   $application .= '<br/>';
 
   $application .= '<strong>'. t('Remaining budget', array(), $translation_lang) .'</strong>: ';
-  $application .= _tr_get_remaining_budget($uid, $year);
+  $application .= number_format(_tr_get_remaining_budget($uid, $year), 2, ',', '.') . ' kr.';
   $application .= '</p>';
+
   return $application;
 }
 
