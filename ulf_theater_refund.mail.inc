@@ -210,7 +210,7 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
   $application .= '<br/>';
 
   $application .= '<strong>'. t('Remaining budget', array(), $translation_lang) .'</strong>: ';
-  $application .= number_format(_tr_get_remaining_budget($uid, $year), 2, ',', '.') . ' kr.';
+  $application .= _tr_get_remaining_budget($uid, $year) . ' kr.';
   $application .= '</p>';
 
   return $application;
@@ -264,7 +264,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= '<strong>';
   $application .= t('Granted amount', array(), $translation_lang);
   $application .= ':</strong> ';
-  $application .= $wrapper->field_tr_granted_amount->value() . ' kr.';
+  $application .= $wrapper->field_tr_granted_amount->value() . ' kr.  <em> ekskl. moms</em>';
   $application .= '<br/>';
   $application .= '<strong>';
   $application .= t('Remarks', array(), $translation_lang);
@@ -348,7 +348,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= '<br/>';
 
   $application .= '<strong>'. t('Remaining budget', array(), $translation_lang) .'</strong>: ';
-  $application .= number_format(_tr_get_remaining_budget($uid, $year), 2, ',', '.') . ' kr.';
+  $application .= _tr_get_remaining_budget($uid, $year) . ' kr.';
   $application .= '</p>';
 
   return $application;
