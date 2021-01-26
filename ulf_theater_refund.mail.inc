@@ -56,7 +56,7 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
         'value' => '',
         'format' => NULL,
       ))['value'];
-      $params['body'] .= _tr_build_mail_followup($wrapper);
+      $params['body'] .= _tr_build_mail_followup($wrapper, $action);
 
       // Log what mail was sent.
       $wrapper->field_tr_mails_sent[] = t('Theater refund accepted', array(), array('langcode' => $language->language));
@@ -70,7 +70,7 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
         'value' => '',
         'format' => NULL,
       ))['value'];
-      $params['body'] .= _tr_build_mail_followup($wrapper);
+      $params['body'] .= _tr_build_mail_followup($wrapper, $action);
 
       $wrapper->field_tr_mails_sent[] = t('Theater refund refused', array(), array('langcode' => $language->language)) . ' ' . $year;
       $wrapper->save();
@@ -221,11 +221,14 @@ function _tr_build_mail_confirmation(EntityMetadataWrapper $wrapper) {
  *
  * @param EntityMetadataWrapper $wrapper
  *   The wrapper of an entity.
+ * @param string $action
+ *   The action taken when building the followup mail.
  *
  * @return string
  *   The values of the submitted form grouped into a string.
+ * @throws \EntityMetadataWrapperException
  */
-function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
+function _tr_build_mail_followup(EntityMetadataWrapper $wrapper, $action) {
   $application = '';
   $entity_form_id = $wrapper->entityform_id->value();
   $uid = $wrapper->uid->value();
@@ -264,7 +267,7 @@ function _tr_build_mail_followup(EntityMetadataWrapper $wrapper) {
   $application .= '<strong>';
   $application .= t('Granted amount', array(), $translation_lang);
   $application .= ':</strong> ';
-  $application .= $wrapper->field_tr_granted_amount->value() . ' kr.  <em> ekskl. moms</em>';
+  $application .= $wrapper->field_tr_granted_amount->value() . ' kr.' . ($action === 'on_change_refused' ? '' : ' ekskl. moms');
   $application .= '<br/>';
   $application .= '<strong>';
   $application .= t('Remarks', array(), $translation_lang);
