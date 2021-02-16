@@ -47,7 +47,7 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
       ))['value'];
       $params['body'] .= _tr_build_mail_confirmation($wrapper);
 
-      $to = variable_get('_tr_admin_email');
+      $to = variable_get('tr_admin_email');
       break;
 
     case 'on_change_accepted':
