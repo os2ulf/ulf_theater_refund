@@ -53,43 +53,44 @@ function ulf_theater_refund_menu() {
 function ulf_theater_refund_cron() {
   global $language;
 
+  // TODO: Figure out if theater refunds should send follow up mails.
+  // @see ulf_free_course_request.module hook_cron for inspiration.
+//  if (variable_get('enable_free_course_follow_up_mails', FALSE)) {
+//    if (date('G') > 8) {
+//      $from = strtotime('yesterday 00:00 Europe/Copenhagen');
+//      $to = strtotime('today 00:00 Europe/Copenhagen') - 1;
+//      $query = db_select('field_data_field_tr_date', 'd');
+//      $query->fields('d', ['entity_id']);
+//      $query->leftJoin('field_data_field_tr_follow_up_mail_sent', 'f', 'd.entity_id = f.entity_id AND d.bundle = f.bundle');
+//      $query->leftJoin('field_data_field_tr_status', 's', 'd.entity_id = s.entity_id');
+//      $query->condition('d.field_tr_date_value', $from, '>=');
+//      $query->condition('d.field_tr_date_value', $to, '<');
+//      $query->condition('d.bundle', 'theater_refund', '=');
+//      $query->condition(
+//        's.field_tr_status_value', [
+//        'accepted',
+//        'awaiting_payment',
+//        'ready_for_payment',
+//        'payment_completed',
+//      ], 'IN'
+//      );
+//      $query->isNull('f.field_tr_follow_up_mail_sent_value');
+//      $result = $query->execute()->fetchAllKeyed(0, 0);
 
-  if (variable_get('enable_free_course_follow_up_mails', FALSE)) {
-    if (date('G') > 8) {
-      $from = strtotime('yesterday 00:00 Europe/Copenhagen');
-      $to = strtotime('today 00:00 Europe/Copenhagen') - 1;
-      $query = db_select('field_data_field_tr_date', 'd');
-      $query->fields('d', ['entity_id']);
-      $query->leftJoin('field_data_field_tr_follow_up_mail_sent', 'f', 'd.entity_id = f.entity_id AND d.bundle = f.bundle');
-      $query->leftJoin('field_data_field_tr_status', 's', 'd.entity_id = s.entity_id');
-      $query->condition('d.field_tr_date_value', $from, '>=');
-      $query->condition('d.field_tr_date_value', $to, '<');
-      $query->condition('d.bundle', 'theater_refund', '=');
-      $query->condition(
-        's.field_tr_status_value', [
-        'accepted',
-        'awaiting_payment',
-        'ready_for_payment',
-        'payment_completed',
-      ], 'IN'
-      );
-      $query->isNull('f.field_tr_follow_up_mail_sent_value');
-      $result = $query->execute()->fetchAllKeyed(0, 0);
-
-      foreach (entityform_load_multiple($result) as $course_request) {
-        $params = [];
-        $wrapper = $course_request->wrapper();
-        $provider = $wrapper->field_tr_provider->value();
-        $course = $wrapper->field_tr_course->value();
-
-        $params['user'] = $provider;
-        $params['node'] = $course;
-        $params['entityform'] = parseRefundFormData($course_request);
-
-        $to = $wrapper->field_tr_mail->value();
-      }
-    }
-  }
+//      foreach (entityform_load_multiple($result) as $course_request) {
+//        $params = [];
+//        $wrapper = $course_request->wrapper();
+//        $provider = $wrapper->field_tr_provider->value();
+//        $course = $wrapper->field_tr_course->value();
+//
+//        $params['user'] = $provider;
+//        $params['node'] = $course;
+//        $params['entityform'] = parseRefundFormData($course_request);
+//
+//        $to = $wrapper->field_tr_mail->value();
+//      }
+//    }
+//  }
 }
 
 function parseRefundFormData($form_data) {
@@ -121,7 +122,6 @@ function ulf_theater_refund_block_view($delta = '') {
     $spent_amount = 0;
 
     $params = drupal_get_query_parameters();
-    $args = arg();
 
     $query = db_select('entityform', 'e');
     $query->leftJoin('field_data_field_tr_requested_amount', 'ra', 'e.entityform_id = ra.entity_id');
@@ -199,9 +199,9 @@ function ulf_theater_refund_block_view($delta = '') {
 
       $result = $query->execute()->fetchAll();
       foreach ($result as $row) {
-        $requested_amount += floatval($row->requested_amount);
-        $granted_amount += floatval($row->granted_amount);
-        $spent_amount += floatval($row->spent_amount);
+        $requested_amount += (float) $row->requested_amount;
+        $granted_amount += (float) $row->granted_amount;
+        $spent_amount += (float) $row->spent_amount;
       }
 
     }
