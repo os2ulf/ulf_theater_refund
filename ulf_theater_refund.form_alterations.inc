@@ -109,8 +109,10 @@ function ulf_theater_refund_form_theater_refund_entityform_edit_form_alter(&$for
     $requested_amount = $form['field_tr_requested_amount'][LANGUAGE_NONE][0]['value']['#default_value'];
 
     if (!empty($form['field_tr_date'][LANGUAGE_NONE][0]['#default_value']['value'])) {
+      $entity_user = user_load($entity->uid);
+      $entity_user_name = $entity_user->field_profile_name[LANGUAGE_NONE][0]['value'] ?? 'Teaterkontaktlærer';
       $date = date('Y', $form['field_tr_date'][LANGUAGE_NONE][0]['#default_value']['value']);
-      $form['actions']['save']['#attributes'] = array('onclick' => 'if(jQuery("#edit-field-tr-status select").val() == "accepted" && !confirm("Teaterkontaktlærer har '. _tr_get_remaining_budget($entity->uid, $date, $entity->entityform_id ) .' kr. i restbudget, vil du godkende denne ansøgning på " + jQuery("#edit-field-tr-granted-amount-und-0-value").val() + " kr.?")){return false;}');
+      $form['actions']['save']['#attributes'] = array('onclick' => 'if(jQuery("#edit-field-tr-status select").val() == "accepted" && !confirm("' . $entity_user_name . ' har '. _tr_get_remaining_budget($entity->uid, $date, $entity->entityform_id ) .' kr. i restbudget, vil du godkende denne ansøgning på " + jQuery("#edit-field-tr-granted-amount-und-0-value").val() + " kr.?")){return false;}');
     }
   }
   else {
