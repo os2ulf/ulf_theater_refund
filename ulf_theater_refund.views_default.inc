@@ -302,13 +302,12 @@ function ulf_theater_refund_views_default_views() {
   );
   $handler->display->display_options['filters']['combine']['fields'] = array(
     'entityform_id' => 'entityform_id',
-    'field_tr_school' => 'field_tr_school',
+    'name' => 'name',
     'field_tr_name' => 'field_tr_name',
+    'field_tr_provider_name' => 'field_tr_provider_name',
     'field_tr_new_course_name' => 'field_tr_new_course_name',
     'field_profile_name' => 'field_profile_name',
     'field_profile_name_1' => 'field_profile_name_1',
-    'nothing' => 'nothing',
-    'name' => 'name',
   );
   /* Filter criterion: Entityform Submission: Entityform Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
