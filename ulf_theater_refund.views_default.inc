@@ -320,7 +320,7 @@ function ulf_theater_refund_views_default_views() {
     'entityform_id' => 'entityform_id',
     'name' => 'name',
     'field_tr_name' => 'field_tr_name',
-    'field_tr_provider_name' => 'field_tr_provider_name',
+    'name_1' => 'name_1',
     'field_tr_new_course_name' => 'field_tr_new_course_name',
     'field_profile_name' => 'field_profile_name',
     'field_profile_name_1' => 'field_profile_name_1',
