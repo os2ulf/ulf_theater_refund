@@ -56,7 +56,9 @@ function ulf_theater_refund_views_default_views() {
     'field_tr_grade' => 'field_tr_grade',
     'field_tr_name' => 'field_tr_name',
     'field_tr_provider_name' => 'field_tr_provider_name',
+    'name_1' => 'name_1',
     'field_tr_new_course_name' => 'field_tr_new_course_name',
+    'field_government_subsidy' => 'field_government_subsidy',
     'field_tr_quantity' => 'field_tr_quantity',
     'field_tr_date' => 'field_tr_date',
     'field_tr_requested_amount' => 'field_tr_requested_amount',
@@ -114,8 +116,22 @@ function ulf_theater_refund_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'name_1' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'field_tr_new_course_name' => array(
       'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_government_subsidy' => array(
+      'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
@@ -514,7 +530,14 @@ function ulf_theater_refund_views_default_views() {
   $handler->display->display_options['fields']['field_tr_provider_name']['id'] = 'field_tr_provider_name';
   $handler->display->display_options['fields']['field_tr_provider_name']['table'] = 'field_data_field_tr_provider_name';
   $handler->display->display_options['fields']['field_tr_provider_name']['field'] = 'field_tr_provider_name';
+  $handler->display->display_options['fields']['field_tr_provider_name']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_tr_provider_name']['type'] = 'taxonomy_term_reference_plain';
+  /* Field: Taxonomy term: Name */
+  $handler->display->display_options['fields']['name_1']['id'] = 'name_1';
+  $handler->display->display_options['fields']['name_1']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['fields']['name_1']['field'] = 'name';
+  $handler->display->display_options['fields']['name_1']['relationship'] = 'field_tr_provider_name_tid';
+  $handler->display->display_options['fields']['name_1']['label'] = 'Teater';
   /* Field: Entityform Submission: Forestilling */
   $handler->display->display_options['fields']['field_tr_new_course_name']['id'] = 'field_tr_new_course_name';
   $handler->display->display_options['fields']['field_tr_new_course_name']['table'] = 'field_data_field_tr_new_course_name';
