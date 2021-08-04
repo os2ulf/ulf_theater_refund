@@ -23,6 +23,7 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
 
   // Set fallback email
   $to = variable_get('site_mail');
+  $from = 'Børnekulturhuset <info@ulfiaarhus.dk>';
   $params = array();
   switch ($action) {
     case 'on_submit_user':
@@ -32,6 +33,7 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
         'format' => NULL,
       ))['value'];
       $params['body'] .= _tr_build_mail_confirmation($wrapper);
+      $params['headers']['Return-Path'] = variable_get('tr_admin_email');
 
       // Log what mail was sent.
       $wrapper->field_tr_mails_sent[] =t('Theater reimbursement', array(), array('langcode' => $language->language)) . ' ' . $year;
@@ -57,6 +59,7 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
         'format' => NULL,
       ))['value'];
       $params['body'] .= _tr_build_mail_followup($wrapper, $action);
+      $params['headers']['Return-Path'] = variable_get('tr_admin_email');
 
       // Log what mail was sent.
       $wrapper->field_tr_mails_sent[] = t('Theater refund accepted', array(), array('langcode' => $language->language));
@@ -71,6 +74,8 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
         'format' => NULL,
       ))['value'];
       $params['body'] .= _tr_build_mail_followup($wrapper, $action);
+      $params['headers']['Return-Path'] = variable_get('tr_admin_email');
+//      $params['h:Reply-To'] = variable_get('tr_admin_email');
 
       $wrapper->field_tr_mails_sent[] = t('Theater refund refused', array(), array('langcode' => $language->language)) . ' ' . $year;
       $wrapper->save();
@@ -78,7 +83,7 @@ function _tr_notify(EntityMetadataWrapper $wrapper, $action) {
       break;
   }
 
-  drupal_mail('ulf_theater_refund', 'tr_notification', $to, $language->language, $params, 'Børnekulturhuset <info@ulfiaarhus.dk>');
+  drupal_mail('ulf_theater_refund', 'tr_notification', $to, $language->language, $params, $from);
 }
 
 /**
