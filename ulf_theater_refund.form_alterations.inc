@@ -11,6 +11,9 @@
 function ulf_theater_refund_form_user_profile_form_alter(&$form, $form_state) {
   global $user;
 
+  // By default hide field allocated budget field.
+  $form['field_allocated_budget']['#access'] = FALSE;
+
   // If on a 'teaterkontaktlærer' profile.
   if (in_array('teaterkontakt', $form['#user']->roles)) {
     $form['picture']['#access'] = FALSE;
@@ -21,7 +24,8 @@ function ulf_theater_refund_form_user_profile_form_alter(&$form, $form_state) {
       }
     }
 
-    if (in_array('editor', $user->roles)) {
+    // Show the allocated budget field appropriate roles.
+    if (user_access('administer ulf theater refund settings', $user)) {
       $form['field_allocated_budget']['#access'] = TRUE;
     }
 
