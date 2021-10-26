@@ -423,7 +423,7 @@ function ajax_check_government_subsidy($form, $form_state) {
   $output = '<div class="tr-warning-message"></div>';
 
   if ($db_result == 1) {
-    $output = '<div class="tr-warning-message">OBS! Dette teater modtager i forvejen statstilskud, og vi kan derfor ikke søge statsrefusion til forestillingen. Det betyder, at I anvender dobbelt kommunal støtte på forestillingen.</div>';
+    $output = '<div class="tr-warning-message">OBS! Dette teater modtager i forvejen statstilskud, og vi kan derfor ikke søge statsrefusion til forestillingen. Du kan godt søge om støtte, men vi gør opmærksom på, at vi anvender dobbelt kommunal støtte på forestillingen. I praksis betyder det, at en billet til 60 kr. "koster" 120 kr. på dit teaterbudget.</div>';
   }
 
   $result['#commands'][] = ajax_command_replace('.field-name-field-tr-provider-name .tr-warning-message', $output);
