@@ -705,14 +705,12 @@ function _tr_get_spent_budget($uid, $year) {
   }
 
   $query->addField('ga', 'field_tr_granted_amount_value', 'granted_amount');
-  $query->addField('gs', 'field_government_subsidy_value', 'subsidy');
   $result = $query->execute()->fetchAll();
 
   $granted_amount = 0;
   foreach($result as $amount) {
     if ($amount->granted_amount !== NULL) {
-      $multiplier = $amount->subsidy === '1' ? 2 : 1;
-      $granted_amount += ($amount->granted_amount * $multiplier);
+      $granted_amount += ($amount->granted_amount);
     }
   }
   return $granted_amount;
